@@ -3,9 +3,10 @@
     <title>Teacher Support</title>
 </head>
 <body>
-<h2>Course #${courseId}: <c:out value="${course.courseName}"/> <c:out value="${course.lectureTitle}"/></h2>
+<h2>Course #${courseId}: <c:out value="${course.courseName}"/></h2>
+<h2>Lecture name: <c:out value="${course.lectureTitle}"/></h2>
 [<a href="<c:url value="/course/delete/${course.id}" />">Delete</a>]<br/><br/>
-<i>Customer Name - <c:out value="${course.teacherName}"/></i><br/><br/>
+<i>Teacher Name - <c:out value="${course.teacherName}"/></i><br/><br/>
 <c:out value="${course.comment}"/><br/><br/>
 <c:if test="${!empty course.lectures}">
     Lectures Note:
@@ -16,7 +17,7 @@
         [<a href="<c:url value="/course/${courseId}/delete/${course.id}" />">Delete</a>]
     </c:forEach><br/><br/>
 </c:if>
-<a href="<c:url value="/course" />">Return to list tickets</a>
+<a href="<c:url value="/course" />">Return to course list</a>
 </body>
 </body>
 </html>

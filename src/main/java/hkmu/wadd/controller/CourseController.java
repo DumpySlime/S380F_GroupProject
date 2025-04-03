@@ -80,7 +80,7 @@ public class CourseController {
             return lectures;
         }
 
-        public void setAttachments(List<MultipartFile> lectures) {
+        public void setLectures(List<MultipartFile> lectures) {
             this.lectures = lectures;
         }
     }
