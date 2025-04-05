@@ -1,24 +1,31 @@
 package hkmu.wadd.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.util.UUID;
 
 @Entity
 public class Vote {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue
+    @ColumnDefault("random_uuid")
+    private UUID id;
 
+    @Column(name = "poll_id", insertable = false, updatable = false)
+    private long pollId;
     @ManyToOne
+    @JoinColumn(name = "poll_id")
     private Poll poll;
 
     private String userId;
     private String selectedOption;
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

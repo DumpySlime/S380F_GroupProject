@@ -14,9 +14,7 @@
 
 <h2>Lectures</h2>
 <!--update the security requirement as needed-->
-<security:authorize access="hasRole('ADMIN')">
-    <a href="<c:url value="/lecture/create"/>">Create Note</a><br/><br/>
-</security:authorize>
+    <a href="<c:url value="/course/lecture/create"/>">Create Lecture</a><br/><br/>
 <c:choose>
     <c:when test="${fn:length(lectureDatabase) == 0}">
         <i>There is no lecture</i>
@@ -24,22 +22,18 @@
     <c:otherwise>
         <c:forEach items="${lectureDatabase}" var="entry">
             Note ${entry.id}:
-            <a href="<c:url value="/lecture/view/${entry.id}" />">
-                <c:out value="${entry.name}"/></a>
-            <!--update the security requirement as needed-->
-            <security:authorize access="hasRole('ADMIN')">
-                [<a href="<c:url value="/lecture/edit/${lecture.id}" />">Edit</a>]
-            </security:authorize>
-            [<a href="<c:url value="/lecture/edit/${entry.lectureId}" />">Edit</a>]
-            [<a href="<c:url value="/lecture/delete/${entry.lectureId}" />">Delete</a>]
+            <a href="<c:url value="/course/lecture/view/${entry.id}" />">
+                <c:out value="${entry.lectureTitle}"/></a>
+            [<a href="<c:url value="/course/lecture/edit/${entry.id}" />">Edit</a>]
+            [<a href="<c:url value="/course/lecture/delete/${entry.id}" />">Delete</a>]
             <br/>
         </c:forEach>
     </c:otherwise>
 </c:choose>
 
 <h2>Polls</h2>
-
-<a href="<c:url value="/poll/create" />">Create Poll</a><br/><br/>
+<!--update the security requirement as needed-->
+<a href="<c:url value="/course/poll/create" />">Create Poll</a><br/><br/>
 <c:choose>
     <c:when test="${fn:length(pollDatabase) == 0}">
         <i>There is no poll</i>
@@ -47,17 +41,11 @@
     <c:otherwise>
         <c:forEach items="${pollDatabase}" var="entry">
             Poll ${entry.id}:
-            <a href="<c:url value="/poll/view/${entry.id}" />">
+            <a href="<c:url value="/course/poll/view/${entry.id}" />">
                 <c:out value="${entry.question}"/></a>
-            (author: <c:out value="${entry.author}"/>)
             <!--update the security requirement as needed-->
-            <security:authorize access="hasRole('ADMIN')">
-                [<a href="<c:url value="/poll/edit/${entry.pollId}" />">Edit</a>]
-            </security:authorize>
-            <!--update the security requirement as needed-->
-            <security:authorize access="hasRole('ADMIN')">
-                [<a href="<c:url value="/poll/delete/${entry.pollId}" />">Delete</a>]
-            </security:authorize>
+                [<a href="<c:url value="/course/poll/edit/${entry.id}" />">Edit</a>]
+                [<a href="<c:url value="/course/poll/delete/${entry.id}" />">Delete</a>]
             <br/>
         </c:forEach>
     </c:otherwise>

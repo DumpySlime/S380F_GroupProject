@@ -3,7 +3,6 @@ package hkmu.wadd.dao;
 import hkmu.wadd.exception.LectureNotFound;
 import hkmu.wadd.exception.PollNotFound;
 import hkmu.wadd.model.Poll;
-import hkmu.wadd.model.Vote;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,17 +39,24 @@ public class PollService {
     }
 
     @Transactional
-    public long createPoll(String question, String author, String option1, String option2, String option3, String option4) throws IOException {
+    public long createPoll(String question, String option1, String option2, String option3, String option4, String comment) throws IOException {
         Poll poll = new Poll();
         poll.setQuestion(question);
-        poll.setAuthor(author);
         poll.setOptionA(option1);
         poll.setOptionB(option2);
         poll.setOptionC(option3);
         poll.setOptionD(option4);
-
+        poll.setComment(comment);
+/*
+        Comment com = new Comment();
+        com.setContent(comment);
+        com.setPoll(poll);
+        if (com.getContent() != null && !com.getContent().isEmpty()) {
+            poll.getComments().add(com);
+        }
+*/
         Poll savedPoll = pollRespsitory.save(poll);
-        return savedPoll.getPollId();
+        return savedPoll.getId();
     }
 
     @Transactional(rollbackFor = LectureNotFound.class)
@@ -63,7 +69,7 @@ public class PollService {
     @Transactional
     public void vote(Long pollId, String userId, String selectedOption) {
         Poll poll = pollRespsitory.findById(pollId).orElseThrow(() -> new PollNotFound(pollId));
-
+/*
         Vote existingVote = findVoteByUser(poll, userId);
 
         if (existingVote != null) {
@@ -75,14 +81,14 @@ public class PollService {
             newVote.setSelectedOption(selectedOption);
             poll.getVotes().add(newVote);
         }
-
+*/
         pollRespsitory.save(poll);
     }
-
+/*
     private Vote findVoteByUser(Poll poll, String userId) {
         return poll.getVotes().stream()
                 .filter(vote -> vote.getUserId().equals(userId))
                 .findFirst()
                 .orElse(null);
-    }
+    }*/
 }

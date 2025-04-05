@@ -1,7 +1,7 @@
 package hkmu.wadd.dao;
 
-import hkmu.wadd.exception.NoteNotFound;
 import hkmu.wadd.exception.LectureNotFound;
+import hkmu.wadd.exception.NoteNotFound;
 import hkmu.wadd.model.Lecture;
 import hkmu.wadd.model.Note;
 import jakarta.annotation.Resource;
@@ -73,14 +73,20 @@ public class LectureService {
     }
 
     @Transactional
-    public long createLecture(String teacherName, String lectureTitle,
+    public long createLecture(String lectureTitle,
                              String comment, List<MultipartFile> notes)
             throws IOException {
         Lecture lecture = new Lecture();
-        lecture.setTeacherName(teacherName);
         lecture.setLectureTitle(lectureTitle);
         lecture.setComment(comment);
-
+        /*
+        Comment com = new Comment();
+        com.setContent(comment);
+        com.setLecture(lecture);
+        if (com.getContent() != null && !com.getContent().isEmpty()) {
+            lecture.getComment().add(com);
+        }
+*/
         for (MultipartFile filePart : notes) {
             Note note = new Note();
             note.setName(filePart.getOriginalFilename());
@@ -88,7 +94,7 @@ public class LectureService {
             note.setContents(filePart.getBytes());
             note.setLecture(lecture);
 
-            if (note.getName() != null && note.getName().length() > 0
+            if (note.getName() != null && !note.getName().isEmpty()
                     && note.getContents() != null
                     && note.getContents().length > 0) {
                 lecture.getNotes().add(note);
@@ -99,16 +105,25 @@ public class LectureService {
     }
 
     @Transactional(rollbackFor = LectureNotFound.class)
-    public void updateLecture(long id, String teacherName, String lectureTitle,
+    public void updateLecture(long id, String lectureTitle,
                              String comment, List<MultipartFile> notes)
             throws IOException, LectureNotFound {
         Lecture updatedLecture = lectureRepository.findById(id).orElse(null);
         if (updatedLecture == null) {
             throw new LectureNotFound(id);
         }
-        updatedLecture.setTeacherName(teacherName);
         updatedLecture.setLectureTitle(lectureTitle);
         updatedLecture.setComment(comment);
+        /*
+        for (String com : comments) {
+            Comment comment = new Comment();
+            comment.setContent(com);
+            comment.setLecture(updatedLecture);
+            if (comment.getContent() != null && !comment.getContent().isEmpty()) {
+                updatedLecture.getComment().add(comment);
+            }
+        }
+        */
         for (MultipartFile filePart : notes) {
             Note note = new Note();
             note.setName(filePart.getOriginalFilename());

@@ -8,20 +8,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Note Support</title>
+    <title>Teacher Support</title>
 </head>
 <body>
-<h2>Edit Note: ${lecture.title}</h2>
+<h2>Edit Lecture: ${lecture.id}</h2>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="lectureForm">
-    <form:label path="title">Note Title</form:label><br/>
-    <form:input type="text" path="title"/><br/><br/>
-    <form:label path="Comment">Comment</form:label><br/>
+    <form:label path="lectureTitle">Lecture Title</form:label><br/>
+    <form:input type="text" path="lectureTitle"/><br/><br/>
+    <form:label path="comment">Comment</form:label><br/>
     <form:textarea path="comment" rows="5" cols="30"/><br/><br/>
-    <b>Add more Note Notes</b><br/>
-    <input type="file" name="lectures" multiple="multiple"/><br/><br/>
+    <b>Add more Lecture Notes</b><br/>
+    <input type="file" name="notes" multiple="multiple"/><br/><br/>
     <input type="submit" value="Save"/>
 </form:form>
-<a href="<c:url value="/lecture" />">Return to lecture page</a>
+<a href="<c:url value="/course/index" />">Return to course page</a>
 </body>
 </html>
 

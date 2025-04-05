@@ -13,11 +13,14 @@ public class Lecture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
-    private String teacherName;
     private String lectureTitle;
     private String comment;
-
+    /*
+    @OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Comment> comments;
+*/
     @OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
@@ -31,14 +34,6 @@ public class Lecture {
         this.id = id;
     }
 
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
-
     public String getLectureTitle() {
         return lectureTitle;
     }
@@ -46,6 +41,15 @@ public class Lecture {
     public void setLectureTitle(String lectureTitle) {
         this.lectureTitle = lectureTitle;
     }
+/*
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+*/
 
     public String getComment() {
         return comment;
@@ -68,14 +72,4 @@ public class Lecture {
         this.notes.remove(note);
     }
 
-    @Override
-    public String toString() {
-        return "Lecture{" +
-                "id=" + id +
-                ", teacherName='" + teacherName + '\'' +
-                ", lecture title='" + lectureTitle + '\'' +
-                ", comment='" + comment + '\'' +
-                ", Notes=" + notes +
-                '}';
-    }
 }
