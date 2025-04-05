@@ -90,7 +90,7 @@ public class LectureService {
             if (note.getName() != null && note.getName().length() > 0
                     && note.getContents() != null
                     && note.getContents().length > 0) {
-                note.getNotes().add(note);
+                lecture.getNotes().add(note);
             }
         }
         Lecture savedLecture = lectureRepository.save(lecture);
