@@ -78,7 +78,7 @@ public class LectureService {
             throws IOException {
         Lecture lecture = new Lecture();
         lecture.setTeacherName(teacherName);
-        lecture.setTitle(lectureTitle);
+        lecture.setLectureTitle(lectureTitle);
         lecture.setComment(comment);
 
         for (MultipartFile filePart : notes) {
@@ -107,7 +107,7 @@ public class LectureService {
             throw new LectureNotFound(id);
         }
         updatedLecture.setTeacherName(teacherName);
-        updatedLecture.setTitle(lectureTitle);
+        updatedLecture.setLectureTitle(lectureTitle);
         updatedLecture.setComment(comment);
         for (MultipartFile filePart : notes) {
             Note note = new Note();

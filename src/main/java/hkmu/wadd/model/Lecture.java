@@ -15,7 +15,7 @@ public class Lecture {
 
     @Column(name = "name")
     private String teacherName;
-    private String title;
+    private String lectureTitle;
     private String comment;
 
     @OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER,
@@ -39,12 +39,12 @@ public class Lecture {
         this.teacherName = teacherName;
     }
 
-    public String getTitle() {
-        return title;
+    public String getLectureTitle() {
+        return lectureTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setLectureTitle(String lectureTitle) {
+        this.lectureTitle = lectureTitle;
     }
 
     public String getComment() {
@@ -73,7 +73,7 @@ public class Lecture {
         return "Lecture{" +
                 "id=" + id +
                 ", teacherName='" + teacherName + '\'' +
-                ", title='" + title + '\'' +
+                ", lecture title='" + lectureTitle + '\'' +
                 ", comment='" + comment + '\'' +
                 ", Notes=" + notes +
                 '}';
