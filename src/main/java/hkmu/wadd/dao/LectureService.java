@@ -87,7 +87,8 @@ public class LectureService {
             note.setMimeContentType(filePart.getContentType());
             note.setContents(filePart.getBytes());
             note.setLecture(lecture);
-            if (note.getName() != null && note.getName().isEmpty()
+
+            if (note.getName() != null && note.getName().length() > 0
                     && note.getContents() != null
                     && note.getContents().length > 0) {
                 lecture.getNotes().add(note);

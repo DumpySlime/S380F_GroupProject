@@ -18,7 +18,7 @@
     <a href="<c:url value="/lecture/create"/>">Create Note</a><br/><br/>
 </security:authorize>
 <c:choose>
-    <c:when test="${fn:lenth(lectureDatabase) == 0}">
+    <c:when test="${fn:length(lectureDatabase) == 0}">
         <i>There is no lecture</i>
     </c:when>
     <c:otherwise>
@@ -28,7 +28,7 @@
                 <c:out value="${entry.name}"/></a>
             <!--update the security requirement as needed-->
             <security:authorize access="hasRole('ADMIN')">
-                [<a href="<c:url value="/ticket/edit/${ticket.id}" />">Edit</a>]
+                [<a href="<c:url value="/lecture/edit/${lecture.id}" />">Edit</a>]
             </security:authorize>
             [<a href="<c:url value="/lecture/edit/${entry.lectureId}" />">Edit</a>]
             [<a href="<c:url value="/lecture/delete/${entry.lectureId}" />">Delete</a>]

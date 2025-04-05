@@ -13,6 +13,7 @@ public class Lecture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "name")
     private String teacherName;
     private String title;
     private String comment;
@@ -42,8 +43,8 @@ public class Lecture {
         return title;
     }
 
-    public void setTitle(String lectureTitle) {
-        this.title = lectureTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getComment() {
@@ -58,7 +59,7 @@ public class Lecture {
         return notes;
     }
 
-    public void setNotes(List<Note> Notes) {
+    public void setNotes(List<Note> notes) {
         this.notes = notes;
     }
 
