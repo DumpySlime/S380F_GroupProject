@@ -1,9 +1,7 @@
 package hkmu.wadd.exception;
 
-import java.util.UUID;
-
 public class LectureNotFound extends Exception{
-    public LectureNotFound(UUID id){
+    public LectureNotFound(long id){
         super("Lecture" + id + "Not Found");
     }
 }

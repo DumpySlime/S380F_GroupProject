@@ -1,80 +1,80 @@
 package hkmu.wadd.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Lecture {
     @Id
-    @GeneratedValue
-    @ColumnDefault("random_uuid()")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @Column(name = "filename")
-    private String name;
+    private String teacherName;
+    private String title;
+    private String comment;
 
-    @Column(name = "content_type")
-    private String mimeContentType;
+    @OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Note> notes = new ArrayList<>();
 
-    @Column(name = "content")
-    @Basic(fetch = FetchType.LAZY)
-    @Lob
-    private byte[] contents;
-
-    @Column(name = "course_id", insertable=false, updatable=false)
-    private long courseId;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
-
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
-    public String getMimeContentType() {
-        return mimeContentType;
+    public String getTitle() {
+        return title;
     }
 
-    public void setMimeContentType(String mimeContentType) {
-        this.mimeContentType = mimeContentType;
+    public void setTitle(String lectureTitle) {
+        this.title = lectureTitle;
     }
 
-    public byte[] getContents() {
-        return contents;
+    public String getComment() {
+        return comment;
     }
 
-    public void setContents(byte[] contents) {
-        this.contents = contents;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public long getCourseId() {
-        return courseId;
+    public List<Note> getNotes() {
+        return notes;
     }
 
-    public void setCourseId(long courseId) {
-        this.courseId = courseId;
+    public void setNotes(List<Note> Notes) {
+        this.notes = notes;
     }
 
-    public Course getCourse() {
-        return course;
+    public void deleteNote(Note note) {
+        note.setLecture(null);
+        this.notes.remove(note);
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    @Override
+    public String toString() {
+        return "Lecture{" +
+                "id=" + id +
+                ", teacherName='" + teacherName + '\'' +
+                ", title='" + title + '\'' +
+                ", comment='" + comment + '\'' +
+                ", Notes=" + notes +
+                '}';
     }
 }

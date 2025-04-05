@@ -26,6 +26,6 @@
         <p>${message}</p>
     </c:otherwise>
 </c:choose>
-<a href="<c:url value="/index" />">Return to index</a>
+<a href="<c:url value="/" />">Return to index</a>
 </body>
 </html>

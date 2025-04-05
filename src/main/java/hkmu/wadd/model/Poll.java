@@ -2,19 +2,23 @@ package hkmu.wadd.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pollId;
-    @Column(name = "name")
-    private String
-            question,
-            author,
-            option1,
-            option2,
-            option3,
-            option4;
+    private String question;
+    private String author;
+    private String optionA;
+    private String optionB;
+    private String optionC;
+    private String optionD;
+    private String comment;
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Vote> votes = new ArrayList<>();
 
     public Long getPollId() {
         return pollId;
@@ -40,35 +44,70 @@ public class Poll {
         this.author = pollCreater;
     }
 
-    public String getOption1() {
-        return option1;
+    public String getOptionA() {
+        return optionA;
     }
 
-    public void setOption1(String pollOption1) {
-        this.option1 = pollOption1;
+    public void setOptionA(String pollOption1) {
+        this.optionA = pollOption1;
     }
 
-    public String getOption2() {
-        return option2;
+    public String getOptionB() {
+        return optionB;
     }
 
-    public void setOption2(String pollOption2) {
-        this.option2 = pollOption2;
+    public void setOptionB(String pollOption2) {
+        this.optionB = pollOption2;
     }
 
-    public String getOption3() {
-        return option3;
+    public String getOptionC() {
+        return optionC;
     }
 
-    public void setOption3(String pollOption3) {
-        this.option3 = pollOption3;
+    public void setOptionC(String pollOption3) {
+        this.optionC = pollOption3;
     }
 
-    public String getOption4() {
-        return option4;
+    public String getOptionD() {
+        return optionD;
     }
 
-    public void setOption4(String pollOption4) {
-        this.option4 = pollOption4;
+    public void setOptionD(String pollOption4) {
+        this.optionD = pollOption4;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
+
+    public int getTotalVotes() {
+        return votes.size();
+    }
+
+    @Override
+    public String toString() {
+        return "Poll{" +
+                "pollId=" + pollId +
+                ", question='" + question + '\'' +
+                ", author='" + author + '\'' +
+                ", option1='" + optionA + '\'' +
+                ", option2='" + optionB + '\'' +
+                ", option3='" + optionC + '\'' +
+                ", option4='" + optionD + '\'' +
+                ", comment='" + comment + '\'' +
+                ", votes=" + votes +
+                '}';
     }
 }

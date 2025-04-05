@@ -19,6 +19,8 @@
   <form:input type="text" path="option3"/><br/><br/>
   <form:label path="option4">Option 4</form:label><br/>
   <form:input type="text" path="option4"/><br/><br/>
+  <form:label path="comment">Comment</form:label><br/>
+  <form:textarea path="comment" rows="5" cols="30"/><br/><br/>
 <input type="submit" value="Submit"/>
 </form:form>
 </body>

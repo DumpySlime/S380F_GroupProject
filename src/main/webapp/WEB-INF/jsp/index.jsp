@@ -1,39 +1,64 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Index</title>
+    <title>Course Management</title>
 </head>
 <body>
+<c:url var="logoutUrl" value="/logout"/>
+<form action="${logoutUrl}" method="post">
+    <input type="submit" value="Log out" />
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
+
 <h2>Online Course Website</h2>
-<a href="<c:url value="/course/create" />">Create a course</a><br/><br/>
+
+<h2>Lectures</h2>
+<!--update the security requirement as needed-->
+<security:authorize access="hasRole('ADMIN')">
+    <a href="<c:url value="/lecture/create"/>">Create Note</a><br/><br/>
+</security:authorize>
 <c:choose>
-    <c:when test="${fn:length(courseDatabase) == 0}">
-        <i>There are no courses in the system.</i>
+    <c:when test="${fn:lenth(lectureDatabase) == 0}">
+        <i>There is no lecture</i>
     </c:when>
     <c:otherwise>
-        <c:forEach items="${courseDatabase}" var="entry">
-            Course ${entry.courseName}:
-            <a href="<c:url value="/course/course_material/${entry.id}" />">
-                <c:out value="${entry.lectureTitle}"/></a>
-            (teacher: <c:out value="${entry.teacherName}"/>)
-            [<a href="<c:url value="/course/delete/${entry.id}" />">Delete</a>]<br />
+        <c:forEach items="${lectureDatabase}" var="entry">
+            Note ${entry.id}:
+            <a href="<c:url value="/lecture/view/${entry.id}" />">
+                <c:out value="${entry.name}"/></a>
+            <!--update the security requirement as needed-->
+            <security:authorize access="hasRole('ADMIN')">
+                [<a href="<c:url value="/ticket/edit/${ticket.id}" />">Edit</a>]
+            </security:authorize>
+            [<a href="<c:url value="/lecture/edit/${entry.lectureId}" />">Edit</a>]
+            [<a href="<c:url value="/lecture/delete/${entry.lectureId}" />">Delete</a>]
+            <br/>
         </c:forEach>
     </c:otherwise>
 </c:choose>
 
-<h2>Poll Lists</h2>
-<a href="<c:url value="/poll/create" />">Create a Poll</a><br/><br/>
+<h2>Polls</h2>
+
+<a href="<c:url value="/poll/create" />">Create Poll</a><br/><br/>
 <c:choose>
     <c:when test="${fn:length(pollDatabase) == 0}">
-        <i>There are no polls</i>
+        <i>There is no poll</i>
     </c:when>
     <c:otherwise>
         <c:forEach items="${pollDatabase}" var="entry">
             Poll ${entry.id}:
-            <a href="<c:url value="/poll/pollList/${entry.id}" />">
-                <c:out value="${entry.value.question}"/>
-            </a>
-            (author: <c:out value="${entry.value.author}"/>) <br/>
+            <a href="<c:url value="/poll/view/${entry.id}" />">
+                <c:out value="${entry.question}"/></a>
+            (author: <c:out value="${entry.author}"/>)
+            <!--update the security requirement as needed-->
+            <security:authorize access="hasRole('ADMIN')">
+                [<a href="<c:url value="/poll/edit/${entry.pollId}" />">Edit</a>]
+            </security:authorize>
+            <!--update the security requirement as needed-->
+            <security:authorize access="hasRole('ADMIN')">
+                [<a href="<c:url value="/poll/delete/${entry.pollId}" />">Delete</a>]
+            </security:authorize>
+            <br/>
         </c:forEach>
     </c:otherwise>
 </c:choose>

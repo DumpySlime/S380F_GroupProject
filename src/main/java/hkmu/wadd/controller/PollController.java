@@ -29,7 +29,7 @@ public class PollController {
 
     private static final Logger log = LoggerFactory.getLogger(PollController.class);
 
-    @GetMapping(value = {"", "/pollList"})
+    @GetMapping(value = {"", "/poll"})
     public String pollList(ModelMap model) {
         model.addAttribute("pollDatabase", pollService.getPolls());
         return "pollList";
@@ -37,21 +37,21 @@ public class PollController {
 
     @GetMapping("/create")
     public ModelAndView createPoll() {
-        return new ModelAndView("addPoll", "pollForm", new Poll());
+        return new ModelAndView("poll_add", "pollForm", new Poll());
     }
 
     @PostMapping("/create")
     public View create(Form form) throws IOException {
-        long pollId = pollService.createPoll(form.getQuestion(), form.getAuthor(), form.getOption1(), form.getOption2(), form.getOption3(), form.getOption4());
-        return new RedirectView("/poll/pollList" + pollId, true);
+        long pollId = pollService.createPoll(form.getQuestion(), form.getAuthor(), form.getOptionA(), form.getOptionB(), form.getOptionC(), form.getOptionD());
+        return new RedirectView("/poll/pollList/" + pollId, true);
     }
 
-    @GetMapping("/poll/{pollId}")
+    @GetMapping("/view/{pollId}")
     public String view(@PathVariable("pollId") long pollId, ModelMap model) throws PollNotFound {
         Poll poll = pollService.getPoll(pollId);
         model.addAttribute("pollId", pollId);
         model.addAttribute("poll", poll);
-        return "viewPoll";
+        return "poll_view";
     }
 
     @ExceptionHandler({PollNotFound.class})
@@ -65,6 +65,16 @@ public class PollController {
         return "redirect:/index/poll";
     }
 
+    @PostMapping("/vote/{pollId}")
+    public String vote(@PathVariable("pollId") Long pollId,
+                       @RequestParam("userId") String userId,
+                       @RequestParam("choice") String choice,
+                       ModelMap model) {
+        pollService.vote(pollId, userId, choice);
+
+        return "redirect:/poll/pollList/" + pollId; // Adjust as needed
+    }
+
     private synchronized long getNextTicketPollId() {
         return this.POLL_ID_SEQUENCE++;
     }
@@ -72,10 +82,11 @@ public class PollController {
     public static class Form {
         private String question,
                 author,
-                option1,
-                option2,
-                option3,
-                option4;
+                optionA,
+                optionB,
+                optionC,
+                optionD,
+                comment;
 
         public String getQuestion() {
             return question;
@@ -93,36 +104,44 @@ public class PollController {
             this.author = author;
         }
 
-        public String getOption1() {
-            return option1;
+        public String getOptionA() {
+            return optionA;
         }
 
-        public void setOption1(String option1) {
-            this.option1 = option1;
+        public void setOptionA(String optionA) {
+            this.optionA = optionA;
         }
 
-        public String getOption2() {
-            return option2;
+        public String getOptionB() {
+            return optionB;
         }
 
-        public void setOption2(String option2) {
-            this.option2 = option2;
+        public void setOptionB(String optionB) {
+            this.optionB = optionB;
         }
 
-        public String getOption3() {
-            return option3;
+        public String getOptionC() {
+            return optionC;
         }
 
-        public void setOption3(String option3) {
-            this.option3 = option3;
+        public void setOptionC(String optionC) {
+            this.optionC = optionC;
         }
 
-        public String getOption4() {
-            return option4;
+        public String getOptionD() {
+            return optionD;
         }
 
-        public void setOption4(String option4) {
-            this.option4 = option4;
+        public void setOptionD(String optionD) {
+            this.optionD = optionD;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
         }
     }
 }
