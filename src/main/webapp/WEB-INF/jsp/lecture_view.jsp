@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 4/5/2025
-  Time: 4:37 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,10 +5,10 @@
 </head>
 <body>
 <!--update the security requirement as needed-->
-    [<a href="<c:url value="/course/ticket/edit/${lecture.id}" />">Edit</a>]
+    [<a href="<c:url value="/course/lecture/edit/${lecture.id}" />">Edit</a>]
 
 <!--update the security requirement as needed-->
-    [<a href="<c:url value="/course/ticket/delete/${lecture.id}" />">Delete</a>]
+    [<a href="<c:url value="/course/lecture/delete/${lecture.id}" />">Delete</a>]
 
 <br/><br/>
 <h2>Note #${lectureId}: <c:out value="${lecture.lectureTitle}"/></h2><br/>

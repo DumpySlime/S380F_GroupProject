@@ -33,7 +33,7 @@
 
 <h2>Polls</h2>
 <!--update the security requirement as needed-->
-<a href="<c:url value="/course/poll/create" />">Create Poll</a><br/><br/>
+<a href="<c:url value="/poll/create" />">Create Poll</a><br/><br/>
 <c:choose>
     <c:when test="${fn:length(pollDatabase) == 0}">
         <i>There is no poll</i>
@@ -41,11 +41,11 @@
     <c:otherwise>
         <c:forEach items="${pollDatabase}" var="entry">
             Poll ${entry.id}:
-            <a href="<c:url value="/course/poll/view/${entry.id}" />">
+            <a href="<c:url value="/poll/view/${entry.id}" />">
                 <c:out value="${entry.question}"/></a>
             <!--update the security requirement as needed-->
-                [<a href="<c:url value="/course/poll/edit/${entry.id}" />">Edit</a>]
-                [<a href="<c:url value="/course/poll/delete/${entry.id}" />">Delete</a>]
+                [<a href="<c:url value="/poll/edit/${entry.id}" />">Edit</a>]
+                [<a href="<c:url value="/poll/delete/${entry.id}" />">Delete</a>]
             <br/>
         </c:forEach>
     </c:otherwise>

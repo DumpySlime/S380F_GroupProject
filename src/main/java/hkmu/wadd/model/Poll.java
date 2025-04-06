@@ -1,9 +1,10 @@
 package hkmu.wadd.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import java.util.List;
 
 @Entity
 public class Poll {
@@ -22,6 +23,7 @@ public class Poll {
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments;
 */
+
 /*
     @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
@@ -83,15 +85,14 @@ public class Poll {
     public void setComment(String comment) {
         this.comment = comment;
     }
-
-    /*
-        public List<Comment> getComments() {
+/*
+    public List<Comment> getComments() {
             return comments;
-        }
+    }
 
-        public void setComments(List<Comment> comments) {
+    public void setComments(List<Comment> comments) {
             this.comments = comments;
-        }
+    }
     */
     /*
     public List<Vote> getVotes() {

@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Comment {
     @Id
     @GeneratedValue
-    @ColumnDefault("random_uuid")
+    @ColumnDefault("random_uuid()")
     private UUID id;
     private String content;
 

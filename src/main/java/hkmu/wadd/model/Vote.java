@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Vote {
     @Id
     @GeneratedValue
-    @ColumnDefault("random_uuid")
+    @ColumnDefault("random_uuid()")
     private UUID id;
 
     @Column(name = "poll_id", insertable = false, updatable = false)

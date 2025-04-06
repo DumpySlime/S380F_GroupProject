@@ -29,6 +29,6 @@ create table if not exists comment(
     lecture_id bigint,
     poll_id bigint,
     primary key (id),
-    foreign key (lecture_id) references lecture,
-    foreign key (poll_id) references poll
+    foreign key (lecture_id) references lecture(id),
+    foreign key (poll_id) references poll(id)
 );
