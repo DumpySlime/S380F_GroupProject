@@ -5,10 +5,10 @@
 </head>
 <body>
 <!--update the security requirement as needed-->
-    [<a href="<c:url value="/course/poll/edit/${poll.id}" />">Edit</a>]
+    [<a href="<c:url value="/poll/edit/${poll.id}" />">Edit</a>]
 
 <!--update the security requirement as needed-->
-    [<a href="<c:url value="/course/poll/delete/${poll.id}" />">Delete</a>]
+    [<a href="<c:url value="/poll/delete/${poll.id}" />">Delete</a>]
 
 <br/><br/>
 

@@ -7,9 +7,9 @@
 <body>
 
 <!--update the security requirement as needed-->
-    [<a href="<c:url value="/course/poll/edit/${pollId}" />">Edit</a>]
+    [<a href="<c:url value="/poll/edit/${pollId}" />">Edit</a>]
 <!--update the security requirement as needed-->
-    [<a href="<c:url value="/course/poll/delete/${pollId}" />">Delete</a>]
+    [<a href="<c:url value="/poll/delete/${pollId}" />">Delete</a>]
 <br/><br/>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="poll">
 <h2><c:out value="${poll.question}"/></h2><br/>

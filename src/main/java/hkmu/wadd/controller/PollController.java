@@ -89,7 +89,7 @@ public class PollController {
     public View createPoll(PollForm pollForm) throws IOException {
         long pollId = pollService.createPoll(pollForm.getQuestion(), pollForm.getOptionA(),
                 pollForm.getOptionB(), pollForm.getOptionC(), pollForm.getOptionD(), pollForm.getComment());
-        return new RedirectView("/view/" + pollId, true);
+        return new RedirectView("/poll/view/" + pollId, true);
     }
 
     @GetMapping("/view/{pollId}")
