@@ -1,0 +1,1 @@
+insert into lecture(lectureTitle) value ('Lecture1');
