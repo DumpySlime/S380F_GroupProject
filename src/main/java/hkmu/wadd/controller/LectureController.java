@@ -1,15 +1,15 @@
 package hkmu.wadd.controller;
 
+import hkmu.wadd.dao.CommentService;
 import hkmu.wadd.dao.LectureService;
-import hkmu.wadd.dao.PollService;
 import hkmu.wadd.exception.LectureNotFound;
 import hkmu.wadd.exception.NoteNotFound;
-import hkmu.wadd.exception.PollNotFound;
+import hkmu.wadd.model.Comment;
 import hkmu.wadd.model.Lecture;
 import hkmu.wadd.model.Note;
-import hkmu.wadd.model.Poll;
 import hkmu.wadd.view.DownloadingView;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -19,37 +19,27 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/course")
-public class CourseController {
-
-    //private static final Logger log = LoggerFactory.getLogger(LectureController.class);
+@RequestMapping("/index/lecture")
+public class LectureController {
     @Resource
     private LectureService lectureService;
     @Resource
-    private PollService pollService;
-
-    // Controller methods, Form-backing object, ...
-    @GetMapping(value = {"", "/index"})
-    public String index(ModelMap model) {
-        model.addAttribute("lectureDatabase", lectureService.getLectures());
-        model.addAttribute("pollDatabase", pollService.getPolls());
-        return "index";
-    }
-
+    private CommentService commentService;
     // --- Lecture Related ---
     // Create Lecture object
-    @GetMapping("/lecture/create")
+    @GetMapping("/create")
     public ModelAndView createLecture() {
-        return new ModelAndView("lecture_add", "lectureForm", new LectureForm());
+        return new ModelAndView("addLecture", "lectureForm", new LectureForm());
     }
 
     public static class LectureForm {
         private String lectureTitle;
-        private String comment;
+        private String body;
         private List<MultipartFile> notes;
 
         public String getLectureTitle() {
@@ -60,12 +50,12 @@ public class CourseController {
             this.lectureTitle = lectureTitle;
         }
 
-        public String getComment() {
-            return comment;
+        public String getBody() {
+            return body;
         }
 
-        public void setComments(String comment) {
-            this.comment = comment;
+        public void setBody(String body) {
+            this.body = body;
         }
 
         public List<MultipartFile> getNotes() {
@@ -77,32 +67,41 @@ public class CourseController {
         }
     }
 
-
-    @PostMapping("/lecture/create")
-    public View createLecture(LectureForm lectureForm) throws IOException {
-        long lectureId = lectureService.createLecture(
-                lectureForm.getLectureTitle(), lectureForm.getComment(), lectureForm.getNotes());
-        return new RedirectView("/course/lecture/view/" + lectureId, true);
+    @PostMapping("/create")
+    public View createLecture(LectureForm lectureForm, Principal principal) throws IOException {
+        long lectureId = lectureService.createLecture(principal.getName(),
+                lectureForm.getLectureTitle(), lectureForm.getBody(), lectureForm.getNotes());
+        return new RedirectView("/index/lecture/view/" + lectureId, true);
     }
 
-    @GetMapping("/lecture/view/{lectureId}")
+    @GetMapping("/view/{lectureId}")
     public String viewLecture(@PathVariable("lectureId") long lectureId,
                        ModelMap model)
             throws LectureNotFound {
         Lecture lecture = lectureService.getLecture(lectureId);
+        List<Comment> comments = commentService.getCommentsByLectureId(lectureId);
+
+        // Append comments after fetching
+        lecture.setComments(comments);
+
         model.addAttribute("lectureId", lectureId);
         model.addAttribute("lecture", lecture);
-        return "lecture_view";
+        model.addAttribute("comments", comments);
+        return "viewLecture";
     }
 
-    @GetMapping("/lecture/edit/{lectureId}")
-    public ModelAndView editLecture(@PathVariable("lectureId") long lectureId)
+    @GetMapping("/edit/{lectureId}")
+    public ModelAndView editLecture(@PathVariable("lectureId") long lectureId,
+                            Principal principal, HttpServletRequest request)
         throws LectureNotFound {
         Lecture lecture = lectureService.getLecture(lectureId);
-        if (lecture == null) {
+        if (lecture == null
+            || (!request.isUserInRole("ROLE_ADMIN")
+        && !principal.getName().equals(lecture.getTeacherName()))){
             return new ModelAndView(new RedirectView("/course/index", true));
         }
-        ModelAndView modelAndView = new ModelAndView("lecture_edit");
+
+        ModelAndView modelAndView = new ModelAndView("editLecture");
         modelAndView.addObject("lecture", lecture);
 
         LectureForm lectureForm = new LectureForm();
@@ -112,8 +111,22 @@ public class CourseController {
         return modelAndView;
     }
 
+    @PostMapping("/edit/{lectureId}")
+    public String editLecture(@PathVariable("lectureId") long lectureId, LectureForm form,
+                            Principal principal, HttpServletRequest request)
+        throws LectureNotFound , IOException {
+        Lecture lecture = lectureService.getLecture(lectureId);
+        if (lecture == null
+        || (!request.isUserInRole("ROLE_ADMIN")
+        && !principal.getName().equals(lecture.getTeacherName()))){
+            return "redirect:/index/lecture/view/";
+        }
+        lectureService.updateLecture(lectureId, form.getLectureTitle(),
+                form.getBody(), form.getNotes());
+        return "redirect:/index/lecture/view/" + lectureId;
+    }
     // Downloading lecture note
-    @GetMapping("/lecture/{lectureId}/note/{note:.+}")
+    @GetMapping("/{lectureId}/note/{note:.+}")
     public View download(@PathVariable("lectureId") long lectureId,
                          @PathVariable("note") UUID noteId)
             throws LectureNotFound, NoteNotFound {
@@ -122,14 +135,14 @@ public class CourseController {
                 note.getMimeContentType(), note.getContents());
     }
 
-    @GetMapping("/lecture/delete/{lectureId}")
+    @GetMapping("/delete/{lectureId}")
     public String deleteLecture(@PathVariable("lectureId") long lectureId)
             throws LectureNotFound {
         lectureService.delete(lectureId);
-        return "redirect:/course/index";
+        return "redirect:/index";
     }
 
-    @GetMapping("/lecture/{courseId}/delete/{note:.+}")
+    @GetMapping("/{lectureId}/delete/{note:.+}")
     public String deleteNote(@PathVariable("lectureId") long lectureId,
                              @PathVariable("note") UUID noteId)
             throws NoteNotFound, LectureNotFound {

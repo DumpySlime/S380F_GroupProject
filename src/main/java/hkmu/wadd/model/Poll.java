@@ -4,38 +4,32 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/*
 @Entity
 public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private String question;
     private String optionA;
     private String optionB;
     private String optionC;
     private String optionD;
-    private String comment;
-/*
-    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<Comment> comments;
-*/
 
-/*
     @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
-    private List<Vote> votes = new ArrayList<>();
-*/
-    public Long getId() {
+    private List<Comment> comments = new ArrayList<>();
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long pollId) {
-        this.id = pollId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getQuestion() {
@@ -78,29 +72,12 @@ public class Poll {
         this.optionD = optionD;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-/*
     public List<Comment> getComments() {
-            return comments;
+        return comments;
     }
 
     public void setComments(List<Comment> comments) {
-            this.comments = comments;
+        this.comments = comments;
     }
-    */
-    /*
-    public List<Vote> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
-    }
-    */
 }
+*/

@@ -1,3 +1,4 @@
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,9 +13,10 @@
 
 <h2>Online Course Website</h2>
 
+<a href="<c:url value='/courseUser'/>">Manage User Accounts</a><br /><br />
 <h2>Lectures</h2>
 <!--update the security requirement as needed-->
-    <a href="<c:url value="/course/lecture/create"/>">Create Lecture</a><br/><br/>
+    <a href="<c:url value="/index/lecture/create"/>">Create Lecture</a><br/><br/>
 <c:choose>
     <c:when test="${fn:length(lectureDatabase) == 0}">
         <i>There is no lecture</i>
@@ -22,30 +24,17 @@
     <c:otherwise>
         <c:forEach items="${lectureDatabase}" var="entry">
             Note ${entry.id}:
-            <a href="<c:url value="/course/lecture/view/${entry.id}" />">
+            <a href="<c:url value="/index/lecture/view/${entry.id}" />">
                 <c:out value="${entry.lectureTitle}"/></a>
-            [<a href="<c:url value="/course/lecture/edit/${entry.id}" />">Edit</a>]
-            [<a href="<c:url value="/course/lecture/delete/${entry.id}" />">Delete</a>]
-            <br/>
-        </c:forEach>
-    </c:otherwise>
-</c:choose>
 
-<h2>Polls</h2>
-<!--update the security requirement as needed-->
-<a href="<c:url value="/poll/create" />">Create Poll</a><br/><br/>
-<c:choose>
-    <c:when test="${fn:length(pollDatabase) == 0}">
-        <i>There is no poll</i>
-    </c:when>
-    <c:otherwise>
-        <c:forEach items="${pollDatabase}" var="entry">
-            Poll ${entry.id}:
-            <a href="<c:url value="/poll/view/${entry.id}" />">
-                <c:out value="${entry.question}"/></a>
-            <!--update the security requirement as needed-->
-                [<a href="<c:url value="/poll/edit/${entry.id}" />">Edit</a>]
-                [<a href="<c:url value="/poll/delete/${entry.id}" />">Delete</a>]
+            <!-- Edit-->
+            <security:authorize access="hasRole('ADMIN') or
+                principal.username=='${entry.teacherName}'">
+                [<a href="<c:url value="/index/lecture/edit/${entry.id}" />">Edit</a>]
+            </security:authorize>
+            <security:authorize access="hasRole('ADMIN')">
+                [<a href="<c:url value="/index/lecture/delete/${entry.id}" />">Delete</a>]
+            </security:authorize>
             <br/>
         </c:forEach>
     </c:otherwise>

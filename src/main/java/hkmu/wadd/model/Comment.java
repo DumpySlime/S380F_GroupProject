@@ -1,61 +1,31 @@
 package hkmu.wadd.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
+import java.time.LocalDateTime;
 
-import java.util.UUID;
 
 @Entity
 public class Comment {
     @Id
-    @GeneratedValue
-    @ColumnDefault("random_uuid()")
-    private UUID id;
-    private String content;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String context;
 
-    @Column(name = "lecture_id", insertable = false, updatable = false)
-    private long lectureId;
+    private String username;
+
+    private LocalDateTime createTime;
+
     @ManyToOne
-    @JoinColumn(name = "lecture_id")
+    @JoinColumn(name = "lecture_id", nullable = false)
     private Lecture lecture;
 
+    /*
     @Column(name = "poll_id", insertable = false, updatable = false)
     private long pollId;
+
     @ManyToOne
     @JoinColumn(name = "poll_id")
     private Poll poll;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public long getLectureId() {
-        return lectureId;
-    }
-
-    public void setLectureId(long lectureId) {
-        this.lectureId = lectureId;
-    }
-
-    public Lecture getLecture() {
-        return lecture;
-    }
-
-    public void setLecture(Lecture lecture) {
-        this.lecture = lecture;
-    }
 
     public long getPollId() {
         return pollId;
@@ -71,5 +41,46 @@ public class Comment {
 
     public void setPoll(Poll poll) {
         this.poll = poll;
+    }
+    */
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public Lecture getLecture() {
+        return lecture;
+    }
+
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
     }
 }

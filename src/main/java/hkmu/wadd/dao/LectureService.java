@@ -73,20 +73,14 @@ public class LectureService {
     }
 
     @Transactional
-    public long createLecture(String lectureTitle,
-                             String comment, List<MultipartFile> notes)
+    public long createLecture(String teacherName,String lectureTitle,
+                              String body, List<MultipartFile> notes)
             throws IOException {
         Lecture lecture = new Lecture();
+        lecture.setTeacherName(teacherName);
         lecture.setLectureTitle(lectureTitle);
-        lecture.setComment(comment);
-        /*
-        Comment com = new Comment();
-        com.setContent(comment);
-        com.setLecture(lecture);
-        if (com.getContent() != null && !com.getContent().isEmpty()) {
-            lecture.getComment().add(com);
-        }
-*/
+        lecture.setBody(body);
+
         for (MultipartFile filePart : notes) {
             Note note = new Note();
             note.setName(filePart.getOriginalFilename());
@@ -106,24 +100,14 @@ public class LectureService {
 
     @Transactional(rollbackFor = LectureNotFound.class)
     public void updateLecture(long id, String lectureTitle,
-                             String comment, List<MultipartFile> notes)
+                             String body, List<MultipartFile> notes)
             throws IOException, LectureNotFound {
         Lecture updatedLecture = lectureRepository.findById(id).orElse(null);
         if (updatedLecture == null) {
             throw new LectureNotFound(id);
         }
         updatedLecture.setLectureTitle(lectureTitle);
-        updatedLecture.setComment(comment);
-        /*
-        for (String com : comments) {
-            Comment comment = new Comment();
-            comment.setContent(com);
-            comment.setLecture(updatedLecture);
-            if (comment.getContent() != null && !comment.getContent().isEmpty()) {
-                updatedLecture.getComment().add(comment);
-            }
-        }
-        */
+        updatedLecture.setBody(body);
         for (MultipartFile filePart : notes) {
             Note note = new Note();
             note.setName(filePart.getOriginalFilename());
