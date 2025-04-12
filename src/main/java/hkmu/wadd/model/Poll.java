@@ -26,10 +26,9 @@ public class Poll {
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER,
-    cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
-    private List<Vote> vote;
+    private List<Vote> vote = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -100,11 +99,15 @@ public class Poll {
         this.comments.remove(comment);
     }
 
-    public List<Vote> getVote() {
+    public List<Vote> getVotes() {
         return vote;
     }
 
-    public void setVote(List<Vote> vote) {
+    public void setVotes(List<Vote> vote) {
         this.vote = vote;
+    }
+
+    public int getVoteCount() {
+        return vote.size();
     }
 }

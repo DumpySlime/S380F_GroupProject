@@ -6,7 +6,6 @@ import org.hibernate.annotations.ColumnDefault;
 import java.util.UUID;
 
 @Entity
-//@IdClass(VoteId.class)
 public class Vote {
     @Id
     @GeneratedValue

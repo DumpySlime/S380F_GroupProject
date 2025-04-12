@@ -50,7 +50,7 @@ public class CommentService {
 
     @Transactional(rollbackFor = LectureNotFound.class)
     public void deleteCommentFromLecture(long lectureId, long commentId)
-            throws LectureNotFound, CommentNotFound, IOException {
+            throws LectureNotFound, CommentNotFound {
         Lecture lecture = lectureRepository.findById(lectureId).orElse(null);
         if (lecture == null) {
             throw new LectureNotFound(lectureId);

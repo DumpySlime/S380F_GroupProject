@@ -12,10 +12,9 @@ import hkmu.wadd.model.Vote;
 //import hkmu.wadd.model.VoteId;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
@@ -34,6 +33,8 @@ public class PollController {
     private CommentService commentService;
     @Resource
     private VoteService voteService;
+    @Autowired
+    private VoteRepository voteRepository;
 
     @GetMapping("/create")
     public ModelAndView createPoll() {return new ModelAndView("addPoll", "pollForm", new PollForm());};
@@ -93,26 +94,34 @@ public class PollController {
         return new RedirectView("/index");
     }
 
+    public static class VoteForm {
+        private String choice;
+        public String getChoice() {
+            return choice;
+        }
+        public void setChoice(String choice) {
+            this.choice = choice;
+        }
+    }
+
     @GetMapping("/vote/{pollId}")
-    public ModelAndView votePoll(@PathVariable("pollId") long pollId, Principal principal)
+    public ModelAndView votePoll(@PathVariable("pollId") long pollId, Principal principal, Model model)
         throws PollNotFound, VoteNotFound {
         String username = principal.getName();
         Poll poll = pollService.getPollById(pollId);
         if (poll == null) {
             return new ModelAndView(new RedirectView("/index", true));
         }
-        Vote userVote = voteService.getVote(username, pollId);
-/*
-        VoteId voteId = new VoteId(username, pollId);
-        Vote userVote = voteService.getVoteById(voteId);
-*/
+        Vote userVote = voteService.getUserVote(username, pollId);
         List<Comment> comments = commentService.getCommentsByPollId(pollId);
         poll.setComments(comments);
 
         ModelAndView modelAndView = new ModelAndView("pollForm");
         modelAndView.addObject("poll", poll);
-        modelAndView.addObject("userVote", userVote);
         modelAndView.addObject("comments", comments);
+        modelAndView.addObject("voteForm", new VoteForm());
+        modelAndView.addObject("userVote", userVote);
+        modelAndView.addObject("voteCount", poll.getVoteCount());
         return modelAndView;
     }
 
@@ -126,7 +135,13 @@ public class PollController {
             return "redirect:/index";
         }
 
-        voteService.addVoteToPoll(username, pollId, choice);
+        Vote existingVote = voteService.getUserVote(username, pollId);
+        if (existingVote != null) {
+            existingVote.setChoice(choice);
+            voteRepository.save(existingVote);
+        } else {
+            voteService.addVoteToPoll(username, pollId, choice);
+        }
         return "redirect:/index";
     }
 
@@ -162,13 +177,17 @@ public class PollController {
         }
         pollService.updatePoll(pollId, pollForm.getQuestion(), pollForm.getOptionAText(),
                 pollForm.getOptionBText(), pollForm.getOptionCText(), pollForm.getOptionDText());
-        return "redirect:/index/poll/vote/" + pollId;
+        return "redirect:/index";
     }
 
     @GetMapping("/delete/{pollId}")
     public String deletePoll(@PathVariable("pollId") long pollId)
         throws PollNotFound{
-        pollService.deletePollById(pollId);
+        Poll poll = pollService.getPollById(pollId);
+        if (poll == null) {
+            throw new PollNotFound(pollId);
+        }
+        pollService.deletePoll(pollId);
         return "redirect:/index";
     }
 }

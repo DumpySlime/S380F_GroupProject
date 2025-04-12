@@ -38,23 +38,24 @@ public class CommentController {
     @PostMapping("/lecture/view/{lectureId}/comments/deleteComment/{commentId}")
     public String deleteCommentFromLecture(@PathVariable("lectureId") long lectureId,
                                            @PathVariable("commentId") long commentId)
-            throws LectureNotFound, IOException, CommentNotFound {
+            throws LectureNotFound, CommentNotFound {
         commentService.deleteCommentFromLecture(lectureId, commentId);
         return "redirect:/index/lecture/view/" + lectureId;
     }
 
     // Add comment to poll
-    @PostMapping("/poll/vote/{pollId}/comment/addComment")
-    public String addCommentToPoll(@PathVariable("pollId") long pollId, @RequestParam("comment") String comment, Principal principal) {
+    @PostMapping("/poll/vote/{pollId}/comments/addComment")
+    public String addCommentToPoll(@PathVariable("pollId") long pollId,
+                                   @RequestParam("context") String context, Principal principal) {
         String currentUser = principal.getName();
-        commentService.addCommentToPoll(currentUser, comment, pollId);
+        commentService.addCommentToPoll(currentUser, context, pollId);
         return "redirect:/index/poll/vote/" + pollId;
     }
 
     @PostMapping("/poll/vote/{pollId}/comments/deleteComment/{commentId}")
     public String deleteCommentFromPoll(@PathVariable("pollId") long pollId,
                                            @PathVariable("commentId") long commentId)
-            throws PollNotFound, IOException, CommentNotFound {
+            throws PollNotFound, CommentNotFound {
         commentService.deleteCommentFromPoll(pollId, commentId);
         return "redirect:/index/poll/vote/" + pollId;
     }

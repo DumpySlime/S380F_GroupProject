@@ -20,8 +20,7 @@ public class CourseUser {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "username", fetch = FetchType.EAGER,
-    cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "username", fetch = FetchType.EAGER)
     private List<Vote> vote;
 
     public CourseUser(){

@@ -1,7 +1,6 @@
 package hkmu.wadd.dao;
 
 import hkmu.wadd.exception.PollNotFound;
-import hkmu.wadd.exception.VoteNotFound;
 import hkmu.wadd.model.Poll;
 import hkmu.wadd.model.Vote;
 //import hkmu.wadd.model.VoteId;
@@ -9,9 +8,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PollService {
@@ -28,10 +25,14 @@ public class PollService {
     public Poll getPollById(Long pollId) throws PollNotFound { return pollRepository.findById(pollId).orElseThrow(() -> new PollNotFound(pollId)); }
 
     @Transactional(rollbackFor = PollNotFound.class)
-    public void deletePollById(Long pollId) throws PollNotFound {
+    public void deletePoll(Long pollId) throws PollNotFound {
         Poll poll = pollRepository.findById(pollId).orElse(null);
         if (poll == null) {
             throw new PollNotFound(pollId);
+        }
+        List<Vote> votesToDelete = poll.getVotes();
+        for (Vote vote : votesToDelete) {
+            voteRepository.delete(vote);
         }
         pollRepository.delete(poll);
     }

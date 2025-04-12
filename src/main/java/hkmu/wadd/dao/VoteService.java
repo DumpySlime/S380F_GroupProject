@@ -22,12 +22,12 @@ public class VoteService {
     private CourseUserRepository courseUserRepository;
 
     @Transactional
-    public Vote getVote(String username, Long pollId) {
+    public Vote getVote(String username, Long pollId, UUID voteId) {
         Poll poll = pollRepository.findById(pollId).orElse(null);
         if (poll == null) {
             throw new PollNotFound(pollId);
         }
-        Vote vote = voteRepository.findByPollIdAndUsername(pollId, username);
+        Vote vote = voteRepository.findById(voteId).orElse(null);
         if (vote == null) {
             throw new VoteNotFound(username, vote.getId(), pollId);
         }
@@ -35,16 +35,8 @@ public class VoteService {
     }
 
     @Transactional
-    public Vote getUserVote(String username, Long pollId, UUID voteId) throws PollNotFound, VoteNotFound {
-        Poll poll = pollRepository.findById(pollId).orElse(null);
-        if (poll == null) {
-            throw new PollNotFound(pollId);
-        }
-        Vote vote = voteRepository.findByPollIdAndUsername(pollId, username);
-        if (vote == null) {
-            throw new VoteNotFound(username, voteId, pollId);
-        }
-        return vote;
+    public Vote getUserVote(String username, Long pollId) {
+        return voteRepository.findByPollIdAndUsername(pollId, username);
     }
 
     @Transactional
