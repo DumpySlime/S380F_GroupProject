@@ -112,15 +112,18 @@ public class PollController {
         if (poll == null) {
             return new ModelAndView(new RedirectView("/index", true));
         }
+        VoteForm voteForm = new VoteForm();
         Vote userVote = voteService.getUserVote(username, pollId);
+        if (userVote != null) {
+            voteForm.setChoice(userVote.getChoice());
+        }
         List<Comment> comments = commentService.getCommentsByPollId(pollId);
         poll.setComments(comments);
 
         ModelAndView modelAndView = new ModelAndView("pollForm");
         modelAndView.addObject("poll", poll);
         modelAndView.addObject("comments", comments);
-        modelAndView.addObject("voteForm", new VoteForm());
-        modelAndView.addObject("userVote", userVote);
+        modelAndView.addObject("voteForm", voteForm);
         modelAndView.addObject("voteCount", poll.getVoteCount());
         return modelAndView;
     }

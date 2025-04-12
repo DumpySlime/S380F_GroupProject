@@ -5,11 +5,12 @@ import hkmu.wadd.exception.VoteNotFound;
 import hkmu.wadd.model.CourseUser;
 import hkmu.wadd.model.Poll;
 import hkmu.wadd.model.Vote;
-//import hkmu.wadd.model.VoteId;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -36,7 +37,8 @@ public class VoteService {
 
     @Transactional
     public Vote getUserVote(String username, Long pollId) {
-        return voteRepository.findByPollIdAndUsername(pollId, username);
+        Vote vote = voteRepository.findByPollIdAndUsername(pollId, username);
+        return vote != null ? vote : null;
     }
 
     @Transactional
@@ -52,6 +54,12 @@ public class VoteService {
         vote.setChoice(choice);
         vote.setCourseUser(courseUser);
         vote.setPoll(poll);
+        vote.setCreateTime(LocalDateTime.now());
         voteRepository.save(vote);
+    }
+
+    @Transactional
+    public List<Vote> getUserVotingHistory(String username) {
+        return voteRepository.findByUsername(username);
     }
 }

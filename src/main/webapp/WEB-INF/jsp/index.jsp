@@ -12,7 +12,7 @@
 </form>
 
 <h2>Online Course Website</h2>
-
+<a href="<c:url value='/index/votinghistory'/>">Voting History</a><br/>
 <a href="<c:url value='/courseUser'/>">Manage User Accounts</a><br /><br />
 <h2>Lectures</h2>
 <security:authorize access="hasRole('ADMIN')">

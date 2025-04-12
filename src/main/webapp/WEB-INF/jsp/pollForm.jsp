@@ -1,4 +1,3 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Poll Support</title>
@@ -11,10 +10,10 @@
 <h2>${poll.question}</h2>
 <p>Total Votes: ${voteCount}</p>
 <form:form action="/index/poll/vote/${poll.id}" method="post" modelAttribute="voteForm">
-    <form:radiobutton path="choice" value="A" checked="${userVote != null && userVote.choice == 'A'}"/>A ${poll.optionAText}<br/>
-    <form:radiobutton path="choice" value="B" checked="${userVote != null && userVote.choice == 'B'}"/>B ${poll.optionBText}<br/>
-    <form:radiobutton path="choice" value="C" checked="${userVote != null && userVote.choice == 'C'}"/>C ${poll.optionCText}<br/>
-    <form:radiobutton path="choice" value="D" checked="${userVote != null && userVote.choice == 'D'}"/>D ${poll.optionDText}<br/>
+    <form:radiobutton path="choice" value="A"/>A ${poll.optionAText}<br/>
+    <form:radiobutton path="choice" value="B"/>B ${poll.optionBText}<br/>
+    <form:radiobutton path="choice" value="C"/>C ${poll.optionCText}<br/>
+    <form:radiobutton path="choice" value="D"/>D ${poll.optionDText}<br/>
     <input type="submit" value="Submit"/>
 </form:form>
 
@@ -32,11 +31,11 @@
 <c:forEach items="${comments}" var="comment">
     <p><strong>${comment.username}</strong> (${comment.createTime}):</p>
     <!-- Delete Comment -->
-    <!--<security:authorize access="hasRole('ADMIN') or principal.username == '${poll.teacherName}'">-->
+    <<security:authorize access="hasRole('ADMIN') or principal.username == '${poll.teacherName}'">
         <form:form action="/index/poll/vote/${pollId}/comments/deleteComment/${comment.id}" method="post">
             <button type="submit">Delete</button>
         </form:form>
-    <!--</security:authorize>-->
+    <</security:authorize>
     <p>${comment.context}</p>
     <hr>
 </c:forEach>

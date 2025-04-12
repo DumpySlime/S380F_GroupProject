@@ -3,6 +3,7 @@ package hkmu.wadd.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +20,8 @@ public class Vote {
     private Long pollId;
 
     private String choice;
+
+    private LocalDateTime createTime;
 
     @ManyToOne
     @JoinColumn(name = "username", insertable = false, updatable = false)
@@ -58,6 +61,14 @@ public class Vote {
 
     public void setChoice(String choice) {
         this.choice = choice;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 
     public CourseUser getCourseUser() {

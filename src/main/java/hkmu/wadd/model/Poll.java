@@ -21,6 +21,9 @@ public class Poll {
     private String optionCText;
     private String optionDText;
 
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
     @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
@@ -109,5 +112,13 @@ public class Poll {
 
     public int getVoteCount() {
         return vote.size();
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
