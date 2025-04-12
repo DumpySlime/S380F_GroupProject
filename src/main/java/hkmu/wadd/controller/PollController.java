@@ -120,11 +120,33 @@ public class PollController {
         List<Comment> comments = commentService.getUndeletedCommentsByPollId(pollId);
         poll.setComments(comments);
 
+        int a = 0, b = 0, c = 0, d = 0;
+        List<Vote> votes = poll.getVotes();
+        for (Vote vote : votes) {
+            switch (vote.getChoice()) {
+                case "A":
+                    a++;
+                    break;
+                case "B":
+                    b++;
+                    break;
+                case "C":
+                    c++;
+                    break;
+                case "D":
+                    d++;
+                    break;
+            }
+        }
+
         ModelAndView modelAndView = new ModelAndView("pollForm");
         modelAndView.addObject("poll", poll);
         modelAndView.addObject("comments", comments);
         modelAndView.addObject("voteForm", voteForm);
-        modelAndView.addObject("voteCount", poll.getVoteCount());
+        modelAndView.addObject("choiceACount", a);
+        modelAndView.addObject("choiceBCount", b);
+        modelAndView.addObject("choiceCCount", c);
+        modelAndView.addObject("choiceDCount", d);
         return modelAndView;
     }
 

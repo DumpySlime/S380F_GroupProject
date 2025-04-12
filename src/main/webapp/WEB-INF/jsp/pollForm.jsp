@@ -8,12 +8,11 @@
 </security:authorize>
 
 <h2>${poll.question}</h2>
-<p>Total Votes: ${voteCount}</p>
 <form:form action="/index/poll/vote/${poll.id}" method="post" modelAttribute="voteForm">
-    <form:radiobutton path="choice" value="A"/>A ${poll.optionAText}<br/>
-    <form:radiobutton path="choice" value="B"/>B ${poll.optionBText}<br/>
-    <form:radiobutton path="choice" value="C"/>C ${poll.optionCText}<br/>
-    <form:radiobutton path="choice" value="D"/>D ${poll.optionDText}<br/>
+    <form:radiobutton path="choice" value="A"/>A ${poll.optionAText} (${choiceACount})<br/>
+    <form:radiobutton path="choice" value="B"/>B ${poll.optionBText} (${choiceBCount})<br/>
+    <form:radiobutton path="choice" value="C"/>C ${poll.optionCText} (${choiceCCount})<br/>
+    <form:radiobutton path="choice" value="D"/>D ${poll.optionDText} (${choiceDCount})<br/>
     <input type="submit" value="Submit"/>
 </form:form>
 
