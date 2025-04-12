@@ -15,6 +15,9 @@ public class Comment {
 
     private LocalDateTime createTime;
 
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
     @ManyToOne
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
@@ -61,6 +64,14 @@ public class Comment {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Lecture getLecture() {
