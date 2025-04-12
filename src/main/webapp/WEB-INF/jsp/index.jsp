@@ -12,10 +12,12 @@
 </form>
 
 <h2>Online Course Website</h2>
-
+<a href="<c:url value='/index/votinghistory'/>">Voting History</a><br/>
+<a href="<c:url value='/index/commenthistory'/>">Comment History</a><br/><br/>
 <a href="<c:url value='/courseUser'/>">Manage User Accounts</a><br /><br />
+
+<!-- Display lectures-->
 <h2>Lectures</h2>
-<!--update the security requirement as needed-->
 <security:authorize access="hasRole('ADMIN')">
     <a href="<c:url value="/index/lecture/create"/>">Create Lecture</a><br/><br/>
 </security:authorize>
@@ -35,6 +37,34 @@
             </security:authorize>
             <security:authorize access="hasRole('ADMIN')">
                 [<a href="<c:url value="/index/lecture/delete/${entry.id}" />">Delete</a>]
+            </security:authorize>
+            <br/>
+        </c:forEach>
+    </c:otherwise>
+</c:choose>
+
+<!-- Display poll page -->
+<h2>Polls</h2>
+<security:authorize access="hasRole('ADMIN')">
+    <a href="<c:url value="/index/poll/create"/>">Create Poll</a><br/><br/>
+</security:authorize>
+<c:choose>
+    <c:when test="${fn:length(pollDatabase) == 0}">
+        <i>There is no poll</i>
+    </c:when>
+    <c:otherwise>
+        <c:forEach items="${pollDatabase}" var="entry">
+            Poll ${entry.id}:
+            <a href="<c:url value="/index/poll/vote/${entry.id}" />">
+                <c:out value="${entry.question}"/></a>
+
+            <!-- Edit -->
+            <security:authorize access="hasRole('ADMIN') or
+                principal.username=='${entry.teacherName}'">
+                [<a href="<c:url value="/index/poll/edit/${entry.id}" />">Edit</a>]
+            </security:authorize>
+            <security:authorize access="hasRole('ADMIN')">
+                [<a href="<c:url value="/index/poll/delete/${entry.id}" />">Delete</a>]
             </security:authorize>
             <br/>
         </c:forEach>

@@ -117,7 +117,7 @@ public class PollController {
         if (userVote != null) {
             voteForm.setChoice(userVote.getChoice());
         }
-        List<Comment> comments = commentService.getCommentsByPollId(pollId);
+        List<Comment> comments = commentService.getUndeletedCommentsByPollId(pollId);
         poll.setComments(comments);
 
         ModelAndView modelAndView = new ModelAndView("pollForm");

@@ -79,7 +79,7 @@ public class LectureController {
                        ModelMap model)
             throws LectureNotFound {
         Lecture lecture = lectureService.getLecture(lectureId);
-        List<Comment> comments = commentService.getCommentsByLectureId(lectureId);
+        List<Comment> comments = commentService.getUndeletedCommentsByLectureId(lectureId);
 
         // Append comments after fetching
         lecture.setComments(comments);
