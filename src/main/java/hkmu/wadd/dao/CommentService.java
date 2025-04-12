@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,11 +28,19 @@ public class CommentService {
     PollRepository pollRepository;
 
     // Service for lecture
+
     @Transactional
-    public List<Comment> getCommentsByLectureId(long lectureId) {
+    public List<Comment> getUndeletedCommentsByLectureId(long lectureId) {
         Lecture lecture = lectureRepository.findById(lectureId).orElse(null);
         if (lecture != null) {
-            return commentRepository.findByLecture(lecture);
+            List<Comment> comments = commentRepository.findByLecture(lecture);
+            List<Comment> undeletedComments = new ArrayList<>();
+            for (Comment comment : comments) {
+                if (!comment.getDeleted()) {
+                    undeletedComments.add(comment);
+                }
+            }
+            return undeletedComments;
         }
         return List.of();
     }
@@ -68,10 +76,17 @@ public class CommentService {
     // Service for poll
 
     @Transactional
-    public List<Comment> getCommentsByPollId(long pollId) {
+    public List<Comment> getUndeletedCommentsByPollId(long pollId) {
         Poll poll = pollRepository.findById(pollId).orElse(null);
         if (poll != null) {
-            return commentRepository.findByPoll(poll);
+            List<Comment> comments = commentRepository.findByPoll(poll);
+            List<Comment> undeletedComments = new ArrayList<>();
+            for (Comment comment : comments) {
+                if (!comment.getDeleted()) {
+                    undeletedComments.add(comment);
+                }
+            }
+            return undeletedComments;
         }
         return List.of();
     }
@@ -102,5 +117,10 @@ public class CommentService {
             }
         }
         throw new CommentNotFound(commentId);
+    }
+
+    @Transactional
+    public List<Comment> getUserCommentHistory(String username) {
+        return commentRepository.findByUsername(username);
     }
 }

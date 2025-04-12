@@ -1,9 +1,7 @@
 package hkmu.wadd.controller;
 
-import hkmu.wadd.dao.LectureService;
-import hkmu.wadd.dao.PollService;
-import hkmu.wadd.dao.UserManagementService;
-import hkmu.wadd.dao.VoteService;
+import hkmu.wadd.dao.*;
+import hkmu.wadd.model.Comment;
 import hkmu.wadd.model.Vote;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,6 +24,8 @@ public class IndexController {
     private PollService pollService;
     @Resource
     private VoteService voteService;
+    @Resource
+    private CommentService commentService;
 
     // Redirect to lecture list
     @GetMapping(value = {"", "/index"})
@@ -35,12 +35,22 @@ public class IndexController {
         return "index";
     }
 
+    // Show Voting History
     @GetMapping("/index/votinghistory")
     public String votingHistory(Principal principal, ModelMap model) {
         String username = principal.getName();
         List<Vote> votingHistory = voteService.getUserVotingHistory(username);
         model.addAttribute("votingHistory", votingHistory);
         return "votingHistory";
+    }
+
+    // Show Comment History
+    @GetMapping("/index/commenthistory")
+    public String commentHistory(Principal principal, ModelMap model) {
+        String username = principal.getName();
+        List<Comment> commentHistory = commentService.getUserCommentHistory(username);
+        model.addAttribute("commentHistory", commentHistory);
+        return "commentHistory";
     }
 
     // Show login page

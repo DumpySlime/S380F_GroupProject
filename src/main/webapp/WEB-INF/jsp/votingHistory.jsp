@@ -14,7 +14,7 @@
                 <p>Poll Deleted</p>
             </c:if>
             <p>Vote id: ${vote.id}</p><br/>
-            Time voted: ${vote.createTime}</p><br/>
+            Time voted: ${vote.createTime}<br/>
             Poll Author: ${vote.poll.teacherName}<br/>
             Total Votes: ${fn:length(vote.poll.votes)}<br/>
             Poll Question: ${vote.poll.question}<br/>

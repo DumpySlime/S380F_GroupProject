@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS comment (
     username VARCHAR(50) NOT NULL,
     lecture_id BIGINT NOT NULL,
     poll_id BIGINT NOT NULL,
+    deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (lecture_id) REFERENCES lecture(id) ON DELETE CASCADE,
     FOREIGN KEY (username) REFERENCES users(username),
     FOREIGN KEY (poll_id) REFERENCES poll(id) ON DELETE CASCADE

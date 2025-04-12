@@ -31,11 +31,11 @@
 <c:forEach items="${comments}" var="comment">
     <p><strong>${comment.username}</strong> (${comment.createTime}):</p>
     <!-- Delete Comment -->
-    <<security:authorize access="hasRole('ADMIN') or principal.username == '${poll.teacherName}'">
+    <security:authorize access="hasRole('ADMIN') or principal.username == '${poll.teacherName}'">
         <form:form action="/index/poll/vote/${pollId}/comments/deleteComment/${comment.id}" method="post">
             <button type="submit">Delete</button>
         </form:form>
-    <</security:authorize>
+    </security:authorize>
     <p>${comment.context}</p>
     <hr>
 </c:forEach>

@@ -43,13 +43,6 @@ public class PollService {
         if (poll == null) {
             throw new PollNotFound(pollId);
         }
-/*
-        List<Vote> votesToDelete = poll.getVotes();
-        for (Vote vote : votesToDelete) {
-            voteRepository.delete(vote);
-        }
-        pollRepository.delete(poll);
-*/
 
         poll.setDeleted(true);
         pollRepository.save(poll);

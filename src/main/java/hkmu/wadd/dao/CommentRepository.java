@@ -10,4 +10,5 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment>findByLecture(Lecture lecture);
     List<Comment>findByPoll(Poll poll);
+    List<Comment>findByUsername(String username);
 }

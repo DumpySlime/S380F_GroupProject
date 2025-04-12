@@ -11,8 +11,9 @@
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 
-<h2>Online Course Website</h2>
+<h2>Online Course Website</h2><br/>
 <a href="<c:url value='/index/votinghistory'/>">Voting History</a><br/>
+<a href="<c:url value='/index/commenthistory'/>">Comment History</a><br/><br/>
 <a href="<c:url value='/courseUser'/>">Manage User Accounts</a><br /><br />
 <h2>Lectures</h2>
 <security:authorize access="hasRole('ADMIN')">

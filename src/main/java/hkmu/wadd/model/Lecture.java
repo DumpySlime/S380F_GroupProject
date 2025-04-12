@@ -83,7 +83,7 @@ public class Lecture {
     }
 
     public void deleteComment(Comment comment) {
-        comment.setLecture(null);
-        this.comments.remove(comment);
+        comment.setDeleted(true);
+        //this.comments.remove(comment);
     }
 }

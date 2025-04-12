@@ -98,8 +98,8 @@ public class Poll {
     }
 
     public void deleteComment(Comment comment) {
-        comment.setPoll(null);
-        this.comments.remove(comment);
+        comment.setDeleted(true);
+        //this.comments.remove(comment);
     }
 
     public List<Vote> getVotes() {
