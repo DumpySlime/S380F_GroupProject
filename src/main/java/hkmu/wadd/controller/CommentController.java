@@ -54,7 +54,7 @@ public class CommentController {
 
     @PostMapping("/poll/vote/{pollId}/comments/deleteComment/{commentId}")
     public String deleteCommentFromPoll(@PathVariable("pollId") long pollId,
-                                           @PathVariable("commentId") long commentId)
+                                        @PathVariable("commentId") long commentId)
             throws PollNotFound, CommentNotFound {
         commentService.deleteCommentFromPoll(pollId, commentId);
         return "redirect:/index/poll/vote/" + pollId;

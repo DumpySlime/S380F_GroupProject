@@ -15,6 +15,8 @@
 <a href="<c:url value='/index/votinghistory'/>">Voting History</a><br/>
 <a href="<c:url value='/index/commenthistory'/>">Comment History</a><br/><br/>
 <a href="<c:url value='/courseUser'/>">Manage User Accounts</a><br /><br />
+
+<!-- Display lectures-->
 <h2>Lectures</h2>
 <security:authorize access="hasRole('ADMIN')">
     <a href="<c:url value="/index/lecture/create"/>">Create Lecture</a><br/><br/>
@@ -28,7 +30,6 @@
             Note ${entry.id}:
             <a href="<c:url value="/index/lecture/view/${entry.id}" />">
                 <c:out value="${entry.lectureTitle}"/></a>
-
             <!-- Edit-->
             <security:authorize access="hasRole('ADMIN') or
                 principal.username=='${entry.teacherName}'">
@@ -42,6 +43,7 @@
     </c:otherwise>
 </c:choose>
 
+<!-- Display poll page -->
 <h2>Polls</h2>
 <security:authorize access="hasRole('ADMIN')">
     <a href="<c:url value="/index/poll/create"/>">Create Poll</a><br/><br/>

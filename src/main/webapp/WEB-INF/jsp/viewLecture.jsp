@@ -11,9 +11,10 @@
     [<a href="<c:url value="/index/lecture/delete/${lecture.id}" />">Delete</a>]
 
 <br/><br/>
-<h2>Note #${lectureId}: <c:out value="${lecture.lectureTitle}"/></h2><br/>
+<h2>Lecture #${lectureId}: <c:out value="${lecture.lectureTitle}"/></h2><br/>
+<h2>Body:${lecture.body}</h2>
 <c:if test="${!empty lecture.notes}">
-    Notes: <br/>
+    <h2>Notes:</h2>
     <c:forEach items="${lecture.notes}" var="note" varStatus="status">
         <a href="<c:url value="/index/lecture/${lectureId}/note/${note.id}"/>">
             <c:out value="${note.name}"/></a>
@@ -22,25 +23,22 @@
     </c:forEach><br/><br/>
 </c:if>
 
-<!-- Add Comment for every Users -->
+<!-- Display Comments -->
+<!-- registered user add Comment here-->
+<h3>${comments.size()} Comments</h3>
 <security:authorize access="isAuthenticated()">
-    <h3>Add a Comment</h3>
     <form:form action="/index/lecture/view/${lecture.id}/comments/addComment" method="post">
-        <textarea name="context" rows="4" cols="50" required></textarea><br>
-        <button type="submit">Submit Comment</button>
+        <textarea name="context" rows="1" cols="50" placeholder="Add a comment..." required></textarea><br>
+        <button type="submit">Comment</button>
     </form:form>
 </security:authorize>
-
-<!-- Display Comments -->
-<h3>Comments</h3>
 <c:forEach items="${comments}" var="comment">
     <p><strong>${comment.username}</strong> (${comment.createTime}):</p>
-    <!-- Delete Comment -->
+    <p>${comment.context}</p>    <!-- Delete Comment -->
     <form:form action="/index/lecture/view/${lectureId}/comments/deleteComment/${comment.id}" method="post">
         <button type="submit">Delete</button>
     </form:form>
 
-    <p>${comment.context}</p>
     <hr>
 </c:forEach>
 <a href="<c:url value="/index"/>">Return to course page</a>

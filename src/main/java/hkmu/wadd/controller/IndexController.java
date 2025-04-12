@@ -26,9 +26,8 @@ public class IndexController {
     private VoteService voteService;
     @Resource
     private CommentService commentService;
-
     // Redirect to lecture list
-    @GetMapping(value = {"", "/index"})
+    @GetMapping(value = {"/", "/index"})
     public String list(ModelMap model) {
         model.addAttribute("lectureDatabase", lectureService.getLectures());
         model.addAttribute("pollDatabase", pollService.getUndeletedPolls());
