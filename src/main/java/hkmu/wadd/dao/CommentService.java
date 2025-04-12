@@ -5,6 +5,7 @@ import hkmu.wadd.exception.LectureNotFound;
 import hkmu.wadd.exception.PollNotFound;
 import hkmu.wadd.model.Comment;
 import hkmu.wadd.model.Lecture;
+import hkmu.wadd.model.Poll;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +24,8 @@ public class CommentService {
     @Resource
     LectureRepository lectureRepository;
 
-    //@Resource
-    //PollRepository pollRepository;
+    @Resource
+    PollRepository pollRepository;
 
     // Service for lecture
     @Transactional
@@ -65,9 +66,9 @@ public class CommentService {
     }
 
     // Service for poll
-/*
+
     @Transactional
-    public List<Comment> getCommentByPollId(long pollId) {
+    public List<Comment> getCommentsByPollId(long pollId) {
         Poll poll = pollRepository.findById(pollId).orElse(null);
         if (poll != null) {
             return commentRepository.findByPoll(poll);
@@ -75,13 +76,31 @@ public class CommentService {
         return List.of();
     }
 
-    @Transactional void addCommentToPoll(long pollId, String comment, String username) throws PollNotFound, IOException {
+    @Transactional
+    public void addCommentToPoll(String username, String context, long pollId) throws PollNotFound {
         Poll poll = pollRepository.findById(pollId).orElse(null);
         Comment newComment = new Comment();
-        newComment.setComment(comment);
+        newComment.setContext(context);
         newComment.setPoll(poll);
-        newComment.setUser(username);
-        newComment.setPollId(pollId);
+        newComment.setUsername(username);
+        newComment.setCreateTime(LocalDateTime.now());
         commentRepository.save(newComment);
-    }*/
+    }
+
+    @Transactional(rollbackFor = PollNotFound.class)
+    public void deleteCommentFromPoll(long pollId, long commentId)
+            throws PollNotFound, CommentNotFound {
+        Poll poll = pollRepository.findById(pollId).orElse(null);
+        if (poll == null) {
+            throw new PollNotFound(pollId);
+        }
+        for (Comment comment : poll.getComments()) {
+            if (comment.getId() == commentId) {
+                poll.deleteComment(comment);
+                pollRepository.save(poll);
+                return;
+            }
+        }
+        throw new CommentNotFound(commentId);
+    }
 }

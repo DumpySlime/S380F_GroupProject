@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS comment (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     username VARCHAR(50) NOT NULL,
     lecture_id BIGINT NOT NULL,
+    poll_id BIGINT NOT NULL,
     FOREIGN KEY (lecture_id) REFERENCES lecture(id) ON DELETE CASCADE,
     FOREIGN KEY (username) REFERENCES users(username)
     );

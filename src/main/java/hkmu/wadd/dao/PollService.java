@@ -1,0 +1,65 @@
+package hkmu.wadd.dao;
+
+import hkmu.wadd.exception.PollNotFound;
+import hkmu.wadd.exception.VoteNotFound;
+import hkmu.wadd.model.Poll;
+import hkmu.wadd.model.Vote;
+//import hkmu.wadd.model.VoteId;
+import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+@Service
+public class PollService {
+    @Resource
+    private PollRepository pollRepository;
+
+    @Resource
+    private VoteRepository voteRepository;
+
+    @Transactional
+    public List<Poll> getPolls() { return pollRepository.findAll(); }
+
+    @Transactional
+    public Poll getPollById(Long pollId) throws PollNotFound { return pollRepository.findById(pollId).orElseThrow(() -> new PollNotFound(pollId)); }
+
+    @Transactional(rollbackFor = PollNotFound.class)
+    public void deletePollById(Long pollId) throws PollNotFound {
+        Poll poll = pollRepository.findById(pollId).orElse(null);
+        if (poll == null) {
+            throw new PollNotFound(pollId);
+        }
+        pollRepository.delete(poll);
+    }
+
+    @Transactional
+    public long createPoll(String question, String teacherName, String optionAText, String optionBText, String optionCText, String optionDText) {
+        Poll poll = new Poll();
+        poll.setTeacherName(teacherName);
+        poll.setQuestion(question);
+        poll.setOptionAText(optionAText);
+        poll.setOptionBText(optionBText);
+        poll.setOptionCText(optionCText);
+        poll.setOptionDText(optionDText);
+        Poll savedPoll = pollRepository.save(poll);
+        return savedPoll.getId();
+    }
+
+    @Transactional(rollbackFor = PollNotFound.class)
+    public void updatePoll(Long id, String question, String optionAText, String optionBText, String optionCText, String optionDText) throws PollNotFound {
+        Poll updatedPoll = pollRepository.findById(id).orElse(null);
+        if (updatedPoll == null) {
+            throw new PollNotFound(id);
+        }
+        updatedPoll.setQuestion(question);
+        updatedPoll.setOptionAText(optionAText);
+        updatedPoll.setOptionBText(optionBText);
+        updatedPoll.setOptionCText(optionCText);
+        updatedPoll.setOptionDText(optionDText);
+        pollRepository.save(updatedPoll);
+    }
+}

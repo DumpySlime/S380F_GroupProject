@@ -7,29 +7,44 @@ import org.hibernate.annotations.FetchMode;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+
 @Entity
 public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    private String teacherName;
     private String question;
-    private String optionA;
-    private String optionB;
-    private String optionC;
-    private String optionD;
+    private String optionAText;
+    private String optionBText;
+    private String optionCText;
+    private String optionDText;
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
 
-    public long getId() {
+    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER,
+    cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Vote> vote;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public String getQuestion() {
@@ -40,36 +55,36 @@ public class Poll {
         this.question = question;
     }
 
-    public String getOptionA() {
-        return optionA;
+    public String getOptionAText() {
+        return optionAText;
     }
 
-    public void setOptionA(String optionA) {
-        this.optionA = optionA;
+    public void setOptionAText(String optionAText) {
+        this.optionAText = optionAText;
     }
 
-    public String getOptionB() {
-        return optionB;
+    public String getOptionBText() {
+        return optionBText;
     }
 
-    public void setOptionB(String optionB) {
-        this.optionB = optionB;
+    public void setOptionBText(String optionBText) {
+        this.optionBText = optionBText;
     }
 
-    public String getOptionC() {
-        return optionC;
+    public String getOptionCText() {
+        return optionCText;
     }
 
-    public void setOptionC(String optionC) {
-        this.optionC = optionC;
+    public void setOptionCText(String optionCText) {
+        this.optionCText = optionCText;
     }
 
-    public String getOptionD() {
-        return optionD;
+    public String getOptionDText() {
+        return optionDText;
     }
 
-    public void setOptionD(String optionD) {
-        this.optionD = optionD;
+    public void setOptionDText(String optionDText) {
+        this.optionDText = optionDText;
     }
 
     public List<Comment> getComments() {
@@ -79,5 +94,17 @@ public class Poll {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public void deleteComment(Comment comment) {
+        comment.setPoll(null);
+        this.comments.remove(comment);
+    }
+
+    public List<Vote> getVote() {
+        return vote;
+    }
+
+    public void setVote(List<Vote> vote) {
+        this.vote = vote;
+    }
 }
-*/

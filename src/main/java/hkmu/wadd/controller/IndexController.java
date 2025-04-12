@@ -1,6 +1,7 @@
 package hkmu.wadd.controller;
 
 import hkmu.wadd.dao.LectureService;
+import hkmu.wadd.dao.PollService;
 import hkmu.wadd.dao.UserManagementService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
@@ -15,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
     @Resource
     private LectureService lectureService;
+    @Resource
+    private PollService pollService;
 
     // Redirect to lecture list
     @GetMapping(value = {"", "/index"})
     public String list(ModelMap model) {
         model.addAttribute("lectureDatabase", lectureService.getLectures());
+        model.addAttribute("pollDatabase", pollService.getPolls());
         return "index";
     }
 

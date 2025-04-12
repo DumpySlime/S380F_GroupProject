@@ -16,24 +16,12 @@ public class Comment {
     private LocalDateTime createTime;
 
     @ManyToOne
-    @JoinColumn(name = "lecture_id", nullable = false)
+    @JoinColumn(name = "lecture_id")
     private Lecture lecture;
-
-    /*
-    @Column(name = "poll_id", insertable = false, updatable = false)
-    private long pollId;
 
     @ManyToOne
     @JoinColumn(name = "poll_id")
     private Poll poll;
-
-    public long getPollId() {
-        return pollId;
-    }
-
-    public void setPollId(long pollId) {
-        this.pollId = pollId;
-    }
 
     public Poll getPoll() {
         return poll;
@@ -42,7 +30,6 @@ public class Comment {
     public void setPoll(Poll poll) {
         this.poll = poll;
     }
-    */
 
     public long getId() {
         return id;

@@ -20,6 +20,10 @@ public class CourseUser {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "username", fetch = FetchType.EAGER,
+    cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Vote> vote;
+
     public CourseUser(){
     }
 
@@ -65,5 +69,11 @@ public class CourseUser {
         this.roles = roles;
     }
 
+    public List<Vote> getVote() {
+        return vote;
+    }
 
+    public void setVote(List<Vote> vote) {
+        this.vote = vote;
+    }
 }
