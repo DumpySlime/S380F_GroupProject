@@ -16,13 +16,13 @@
             <p>Comment id: ${comment.id}</p><br/>
             Time commented: ${comment.createTime}<br/>
             <!--Determine the comment source by checking whether Lecture object or Poll object is empty-->
-            Comment From:
+            Comment Source:
             <c:choose>
                 <c:when test="${empty comment.lecture}">
-                    Lecture
+                    Poll ${comment.poll.id}
                 </c:when>
                 <c:otherwise>
-                    Poll
+                    Lecture ${comment.lecture.id}
                 </c:otherwise>
             </c:choose>
             <br/>
