@@ -20,5 +20,6 @@
     <input type="file" name="notes" multiple="multiple"/><br/><br/>
     <input type="submit" value="Submit"/>
 </form:form>
+<a href="<c:url value="/courseUser/list" />">Return to course page</a>
 </body>
 </html>

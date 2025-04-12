@@ -5,7 +5,6 @@ import hkmu.wadd.exception.LectureNotFound;
 import hkmu.wadd.exception.PollNotFound;
 import hkmu.wadd.model.Comment;
 import hkmu.wadd.model.Lecture;
-import hkmu.wadd.model.Poll;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +23,8 @@ public class CommentService {
     @Resource
     LectureRepository lectureRepository;
 
-    @Resource
-    PollRepository pollRepository;
+    //@Resource
+    //PollRepository pollRepository;
 
     // Service for lecture
     @Transactional
@@ -50,7 +49,7 @@ public class CommentService {
 
     @Transactional(rollbackFor = LectureNotFound.class)
     public void deleteCommentFromLecture(long lectureId, long commentId)
-            throws LectureNotFound, CommentNotFound {
+            throws LectureNotFound, CommentNotFound, IOException {
         Lecture lecture = lectureRepository.findById(lectureId).orElse(null);
         if (lecture == null) {
             throw new LectureNotFound(lectureId);
@@ -66,9 +65,9 @@ public class CommentService {
     }
 
     // Service for poll
-
+/*
     @Transactional
-    public List<Comment> getCommentsByPollId(long pollId) {
+    public List<Comment> getCommentByPollId(long pollId) {
         Poll poll = pollRepository.findById(pollId).orElse(null);
         if (poll != null) {
             return commentRepository.findByPoll(poll);
@@ -76,31 +75,13 @@ public class CommentService {
         return List.of();
     }
 
-    @Transactional
-    public void addCommentToPoll(String username, String context, long pollId) throws PollNotFound {
+    @Transactional void addCommentToPoll(long pollId, String comment, String username) throws PollNotFound, IOException {
         Poll poll = pollRepository.findById(pollId).orElse(null);
         Comment newComment = new Comment();
-        newComment.setContext(context);
+        newComment.setComment(comment);
         newComment.setPoll(poll);
-        newComment.setUsername(username);
-        newComment.setCreateTime(LocalDateTime.now());
+        newComment.setUser(username);
+        newComment.setPollId(pollId);
         commentRepository.save(newComment);
-    }
-
-    @Transactional(rollbackFor = PollNotFound.class)
-    public void deleteCommentFromPoll(long pollId, long commentId)
-            throws PollNotFound, CommentNotFound {
-        Poll poll = pollRepository.findById(pollId).orElse(null);
-        if (poll == null) {
-            throw new PollNotFound(pollId);
-        }
-        for (Comment comment : poll.getComments()) {
-            if (comment.getId() == commentId) {
-                poll.deleteComment(comment);
-                pollRepository.save(poll);
-                return;
-            }
-        }
-        throw new CommentNotFound(commentId);
-    }
+    }*/
 }

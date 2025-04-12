@@ -1,11 +1,20 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <style>
+        .error{
+            color:red;
+            font-weight: bold;
+            display: block;
+        }
+    </style>
+    <link href="css/bootstrap.css" rel="stylesheet">
 </head>
-<body>
+
 <div class="container mt-5">
     <h2 class="text-center">Register</h2>
 
@@ -17,33 +26,41 @@
         <div class="alert alert-success">${success}</div>
     </c:if>
 
-    <form action="/register" method="post" modelAttribute="form">
+    <form:form action="/register" method="post" modelAttribute="lectureUser">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-            <label for="username" id="unameLabel">Username</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="password" id="passwordLabel">Password</label>
-            <input type="password" id="password" name="password" required>
-
-            <label for="fullName" id="fullNameLabel">Full Name</label>
-            <input type="text" id="fullName" name="fullName">
-
-            <label for="email" id="emailLabel">Email</label>
-            <input type="email" id="email" name="email">
-
-            <label for="phone" id="phoneLabel">Phone</label>
-            <input type="text" id="phone" name="phone">
-
-            <label for="roles" id="rolesLabel">Role:</label>
-            <select id="roles" name="roles">
-                <option value="ROLE_USER" id="userLabel">User</option>
-                <option value="ROLE_ADMIN" id="adminLabel">Admin</option>
-            </select>
-        <button type="submit" class="btn btn-primary">Register</button>
-    </form>
-
+        <div class="mb-3">
+            <form:label path="username" id="unameLabel">Username:</form:label><br/>
+            <form:errors path="username" cssClass="error"/>
+            <form:input id="username" path="username" />
+        </div>
+        <div class="mb-3">
+            <form:label path="password" id="passwordLabel">Password:</form:label><br/>
+            <form:errors path="password" cssClass="error"/>
+            <form:input id="password" type="password" path="password" />
+        </div>
+        <div class="mb-3">
+        <form:label path="confirmPassword">Confirm Password</form:label><br/>
+        <form:errors path="confirmPassword" cssClass="error"/>
+        <form:input type="password" path="confirmPassword"/><br/><br/>
+        </div>
+        <div class="mb-3">
+            <form:label path="fullName" id="fullNameLabel">Full Name:</form:label><br/>
+            <form:input id="fullName" path="fullName"/>
+        </div>
+            <form:label path="email" id="emailLabel">Email:</form:label><br/>
+            <form:input id="email" path="email"/>
+        <div class="mb-3">
+            <form:label path="phone" id="phoneLabel">Phone:</form:label><br/>
+            <form:input id="phone" path="phone"/>
+        </div>
+        <div class="mb-3">
+            <form:label path="roles">Roles:</form:label><br/>
+            <form:errors path="roles" cssClass="error" />
+            <form:checkbox path="roles" value="ROLE_USER"/>Role_USER
+            <form:checkbox path="roles" value="ROLE_ADMIN"/>Role_ADMIN
+        </div>
+        <input type="submit" value="Register"></>
+    </form:form>
     <p>Already have an account? <a href="login">Log in</a></p>
 </div>
-</body>
 </html>

@@ -98,7 +98,7 @@ public class LectureController {
         if (lecture == null
             || (!request.isUserInRole("ROLE_ADMIN")
         && !principal.getName().equals(lecture.getTeacherName()))){
-            return new ModelAndView(new RedirectView("/course/index", true));
+            return new ModelAndView(new RedirectView("/index", true));
         }
 
         ModelAndView modelAndView = new ModelAndView("editLecture");
@@ -106,6 +106,7 @@ public class LectureController {
 
         LectureForm lectureForm = new LectureForm();
         lectureForm.setLectureTitle(lecture.getLectureTitle());
+        lectureForm.setBody(lecture.getBody());
         modelAndView.addObject("lectureForm", lectureForm);
 
         return modelAndView;

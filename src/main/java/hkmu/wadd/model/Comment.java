@@ -15,16 +15,25 @@ public class Comment {
 
     private LocalDateTime createTime;
 
-    @Column(name = "deleted")
-    private boolean deleted = false;
-
     @ManyToOne
-    @JoinColumn(name = "lecture_id")
+    @JoinColumn(name = "lecture_id", nullable = false)
     private Lecture lecture;
+
+    /*
+    @Column(name = "poll_id", insertable = false, updatable = false)
+    private long pollId;
 
     @ManyToOne
     @JoinColumn(name = "poll_id")
     private Poll poll;
+
+    public long getPollId() {
+        return pollId;
+    }
+
+    public void setPollId(long pollId) {
+        this.pollId = pollId;
+    }
 
     public Poll getPoll() {
         return poll;
@@ -33,6 +42,7 @@ public class Comment {
     public void setPoll(Poll poll) {
         this.poll = poll;
     }
+    */
 
     public long getId() {
         return id;
@@ -64,14 +74,6 @@ public class Comment {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 
     public Lecture getLecture() {

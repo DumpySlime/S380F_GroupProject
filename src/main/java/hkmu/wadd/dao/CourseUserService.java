@@ -34,27 +34,5 @@ public class CourseUserService implements UserDetailsService {
         return new User(courseUser.getUsername(), courseUser.getPassword(), authorities);
     }
 
-    @Transactional
-    public void registerUser(String username, String password,
-                             String fullName, String email, String phone, String role ) {
-        // Check if the user already exists
-        if (courseUserRepository.existsById(username)){
-            throw new IllegalArgumentException("Username '" +username+ "' is already taken.");
-        }
 
-        // Create a new user without encoding the password
-        CourseUser newUser = new CourseUser();
-        newUser.setUsername(username);
-        newUser.setPassword(password);
-        newUser.setFullName(fullName);
-        newUser.setEmail(email);
-        newUser.setPhone(phone);
-
-        // Add the selected role
-        UserRole selectedRole = new UserRole(newUser, role);
-        newUser.getRoles().add(selectedRole);
-
-        // Save the user to the database
-        courseUserRepository.save(newUser);
-    }
 }
