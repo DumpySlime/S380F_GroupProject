@@ -34,7 +34,8 @@
 </security:authorize>
 <c:forEach items="${comments}" var="comment">
     <p><strong>${comment.username}</strong> (${comment.createTime}):</p>
-    <p>${comment.context}</p>    <!-- Delete Comment -->
+    <p>${comment.context}</p>
+    <!-- Delete Comment -->
     <form:form action="/index/lecture/view/${lectureId}/comments/deleteComment/${comment.id}" method="post">
         <button type="submit">Delete</button>
     </form:form>

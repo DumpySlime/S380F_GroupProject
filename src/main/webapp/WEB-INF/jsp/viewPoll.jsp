@@ -16,17 +16,15 @@
     <input type="submit" value="Submit"/>
 </form:form>
 
-<!-- Add Comment for every Users -->
-<security:authorize access="isAuthenticated()">
-    <h3>Add a Comment</h3>
-    <form:form action="/index/poll/vote/${poll.id}/comments/addComment" method="post">
-        <textarea name="context" rows="4" cols="50" required></textarea><br>
-        <button type="submit">Submit Comment</button>
-    </form:form>
-</security:authorize>
-
 <!-- Display Comments -->
-<h3>Comments</h3>
+<!-- registered user add Comment here-->
+<h3>${comments.size()} Comments</h3>
+    <security:authorize access="isAuthenticated()">
+        <form:form action="/index/poll/vote/${poll.id}/comments/addComment" method="post">
+            <textarea name="context" rows="1" cols="50" placeholder="Add a comment..." required></textarea><br>
+            <button type="submit">Comment</button>
+        </form:form>
+    </security:authorize>
 <c:forEach items="${comments}" var="comment">
     <p><strong>${comment.username}</strong> (${comment.createTime}):</p>
     <!-- Delete Comment -->

@@ -139,7 +139,7 @@ public class PollController {
             }
         }
 
-        ModelAndView modelAndView = new ModelAndView("pollForm");
+        ModelAndView modelAndView = new ModelAndView("viewPoll");
         modelAndView.addObject("poll", poll);
         modelAndView.addObject("comments", comments);
         modelAndView.addObject("voteForm", voteForm);
