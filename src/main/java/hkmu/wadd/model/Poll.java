@@ -9,12 +9,15 @@ import java.util.List;
 
 
 @Entity
+@Table(name = "poll")
 public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "teacher_name")
     private String teacherName;
+
     private String question;
     private String optionAText;
     private String optionBText;
@@ -29,7 +32,8 @@ public class Poll {
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<Vote> vote = new ArrayList<>();
 

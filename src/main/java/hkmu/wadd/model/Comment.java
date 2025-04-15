@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
+@Table(name = "comment")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,6 +14,7 @@ public class Comment {
 
     private String username;
 
+    @Column(name = "created_time")
     private LocalDateTime createTime;
 
     @Column(name = "deleted")

@@ -3,6 +3,7 @@ package hkmu.wadd.dao;
 
 import hkmu.wadd.model.CourseUser;
 import hkmu.wadd.model.UserRole;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -56,5 +57,15 @@ public class UserManagementService {
         cUser.setPassword(password);
         cUser.setEmail(email);
         cUser.setPhone(phone);
+    }
+
+    @Transactional
+    @PostConstruct
+    public void createFirstAdmin() {
+        if (cuRepo.count() == 0) {
+            CourseUser cUser = new CourseUser("keith", pe.encode("keithpw"),
+                    "CC", "a@ex.com", "111", new String[]{"ROLE_ADMIN", "ROLE_USER"});
+            cuRepo.save(cUser);
+        }
     }
 }

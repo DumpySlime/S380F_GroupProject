@@ -21,9 +21,10 @@ public class Vote {
 
     private String choice;
 
+    @Column(name = "created_time")
     private LocalDateTime createTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "username", insertable = false, updatable = false)
     private CourseUser courseUser;
 

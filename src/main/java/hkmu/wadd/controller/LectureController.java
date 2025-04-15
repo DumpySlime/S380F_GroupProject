@@ -148,7 +148,7 @@ public class LectureController {
                              @PathVariable("note") UUID noteId)
             throws NoteNotFound, LectureNotFound {
         lectureService.deleteNote(lectureId, noteId);
-        return "redirect:/lecture/lecture_view/" + lectureId;
+        return "redirect:/index/lecture/view/" + lectureId;
     }
 
 }

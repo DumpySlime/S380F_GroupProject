@@ -8,13 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "lecture")
 public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
+    @Column(name = "teacher_name")
     private String teacherName;
+
+    @Column(name = "lecture_title")
     private String lectureTitle;
     private String body;
 

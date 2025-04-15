@@ -38,11 +38,12 @@
     <c:otherwise>
         <c:forEach items="${lectureDatabase}" var="entry">
             Note ${entry.id}:
+            <security:authorize access="isAuthenticated()">
             <a href="<c:url value="/index/lecture/view/${entry.id}" />">
+            </security:authorize>
                 <c:out value="${entry.lectureTitle}"/></a>
             <!-- Edit-->
-            <security:authorize access="isAuthenticated() && (hasRole('ADMIN') or
-                principal.username=='${entry.teacherName}')">
+            <security:authorize access="isAuthenticated() && hasRole('ADMIN')">
                 [<a href="<c:url value="/index/lecture/edit/${entry.id}" />">Edit</a>]
             </security:authorize>
             <security:authorize access="isAuthenticated() && hasRole('ADMIN')">
@@ -64,15 +65,11 @@
     </c:when>
     <c:otherwise>
         <c:forEach items="${pollDatabase}" var="entry">
-            Poll ${entry.id}:
+            Poll ${entry.id}:<br/>
+            Question: ${entry.question}
             <security:authorize access="isAuthenticated()">
-            <a href="<c:url value="/index/poll/vote/${entry.id}" />">
-                <c:out value="${entry.question}"/></a>
-            </security:authorize>
-            <!--link for public-->
-            <security:authorize access="!isAuthenticated()">
-                <a href="<c:url value="/index/poll/view/${entry.id}" />">
-                    <c:out value="${entry.question}"/></a>
+            [<a href="<c:url value="/index/poll/vote/${entry.id}"/>">
+                <c:out value="Vote"/></a>]
             </security:authorize>
 
             <!-- Edit -->

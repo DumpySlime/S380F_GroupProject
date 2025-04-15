@@ -1,9 +1,6 @@
 package hkmu.wadd.model;
 
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,9 @@ public class CourseUser {
     @Id
     private String username;
     private String password;
+
+    @Column(name = "full_name")
+
     private String fullName;
     private String email;
     private String phone;
