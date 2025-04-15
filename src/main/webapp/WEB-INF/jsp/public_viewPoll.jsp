@@ -9,15 +9,10 @@
 </security:authorize>
 
 <h2>${poll.question}</h2>
-<security:authorize access="isAuthenticated()">
-<form:form action="/index/poll/vote/${poll.id}" method="post" modelAttribute="voteForm">
-    <form:radiobutton path="choice" value="A"/>A ${poll.optionAText} (${choiceACount})<br/>
-    <form:radiobutton path="choice" value="B"/>B ${poll.optionBText} (${choiceBCount})<br/>
-    <form:radiobutton path="choice" value="C"/>C ${poll.optionCText} (${choiceCCount})<br/>
-    <form:radiobutton path="choice" value="D"/>D ${poll.optionDText} (${choiceDCount})<br/>
-    <input type="submit" value="Submit"/>
-</form:form>
-</security:authorize>
+A ${poll.optionAText} (${choiceACount})<br/>
+B ${poll.optionBText} (${choiceBCount})<br/>
+C ${poll.optionCText} (${choiceCCount})<br/>
+D ${poll.optionDText} (${choiceDCount})<br/>
 <!-- Display Comments -->
 <!-- registered user add Comment here-->
 <h3>${comments.size()} Comments</h3>

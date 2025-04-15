@@ -4,12 +4,21 @@
 <head>
     <title>Course Management</title>
 </head>
-<body>
+<security:authorize access="isAuthenticated()">
 <c:url var="logoutUrl" value="/logout"/>
 <form action="${logoutUrl}" method="post">
     <input type="submit" value="Log out" />
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
+</security:authorize>
+<!--for public-->
+<security:authorize access="!isAuthenticated()">
+    <c:url var="loginUrl" value="/login"/>
+    <form action="${loginUrl}" method="post">
+        <input type="submit" value="Log in" />
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+</security:authorize>
 
 <h2>Online Course Website</h2><br/>
 <security:authorize access="isAuthenticated()">
@@ -17,10 +26,9 @@
     <a href="<c:url value='/index/commenthistory'/>">Comment History</a><br/><br/>
     <a href="<c:url value='/courseUser'/>">Manage User Accounts</a><br /><br />
 </security:authorize>
-
 <!-- Display lectures-->
 <h2>Lectures</h2>
-<security:authorize access="hasRole('ADMIN')">
+<security:authorize access="isAuthenticated() && hasRole('ADMIN')">
     <a href="<c:url value="/index/lecture/create"/>">Create Lecture</a><br/><br/>
 </security:authorize>
 <c:choose>
@@ -33,11 +41,11 @@
             <a href="<c:url value="/index/lecture/view/${entry.id}" />">
                 <c:out value="${entry.lectureTitle}"/></a>
             <!-- Edit-->
-            <security:authorize access="hasRole('ADMIN') or
-                principal.username=='${entry.teacherName}'">
+            <security:authorize access="isAuthenticated() && (hasRole('ADMIN') or
+                principal.username=='${entry.teacherName}')">
                 [<a href="<c:url value="/index/lecture/edit/${entry.id}" />">Edit</a>]
             </security:authorize>
-            <security:authorize access="hasRole('ADMIN')">
+            <security:authorize access="isAuthenticated() && hasRole('ADMIN')">
                 [<a href="<c:url value="/index/lecture/delete/${entry.id}" />">Delete</a>]
             </security:authorize>
             <br/>
@@ -47,7 +55,7 @@
 
 <!-- Display poll page -->
 <h2>Polls</h2>
-<security:authorize access="hasRole('ADMIN')">
+<security:authorize access="isAuthenticated() && hasRole('ADMIN')">
     <a href="<c:url value="/index/poll/create"/>">Create Poll</a><br/><br/>
 </security:authorize>
 <c:choose>
@@ -57,15 +65,22 @@
     <c:otherwise>
         <c:forEach items="${pollDatabase}" var="entry">
             Poll ${entry.id}:
+            <security:authorize access="isAuthenticated()">
             <a href="<c:url value="/index/poll/vote/${entry.id}" />">
                 <c:out value="${entry.question}"/></a>
+            </security:authorize>
+            <!--link for public-->
+            <security:authorize access="!isAuthenticated()">
+                <a href="<c:url value="/index/poll/view/${entry.id}" />">
+                    <c:out value="${entry.question}"/></a>
+            </security:authorize>
 
             <!-- Edit -->
-            <security:authorize access="hasRole('ADMIN') or
-                principal.username=='${entry.teacherName}'">
+            <security:authorize access="isAuthenticated() && (hasRole('ADMIN') or
+                principal.username=='${entry.teacherName}')">
                 [<a href="<c:url value="/index/poll/edit/${entry.id}" />">Edit</a>]
             </security:authorize>
-            <security:authorize access="hasRole('ADMIN')">
+            <security:authorize access="isAuthenticated() && hasRole('ADMIN')">
                 [<a href="<c:url value="/index/poll/delete/${entry.id}" />">Delete</a>]
             </security:authorize>
             <br/>

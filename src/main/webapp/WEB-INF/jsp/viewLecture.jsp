@@ -4,12 +4,10 @@
     <title>Teacher Support</title>
 </head>
 <body>
-<!--update the security requirement as needed-->
+<security:authorize access="isAuthenticated() && (hasRole('ADMIN') or principal.username == '${poll.teacherName}')">
     [<a href="<c:url value="/index/lecture/edit/${lecture.id}" />">Edit</a>]
-
-<!--update the security requirement as needed-->
     [<a href="<c:url value="/index/lecture/delete/${lecture.id}" />">Delete</a>]
-
+</security:authorize>
 <br/><br/>
 <h2>Lecture #${lectureId}: <c:out value="${lecture.lectureTitle}"/></h2><br/>
 <h2>Body:${lecture.body}</h2>
@@ -36,9 +34,11 @@
     <p><strong>${comment.username}</strong> (${comment.createTime}):</p>
     <p>${comment.context}</p>
     <!-- Delete Comment -->
+    <security:authorize access="isAuthenticated() && (hasRole('ADMIN') or principal.username == '${poll.teacherName}')">
     <form:form action="/index/lecture/view/${lectureId}/comments/deleteComment/${comment.id}" method="post">
         <button type="submit">Delete</button>
     </form:form>
+    </security:authorize>
 
     <hr>
 </c:forEach>

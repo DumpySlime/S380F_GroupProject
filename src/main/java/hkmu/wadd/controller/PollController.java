@@ -104,6 +104,47 @@ public class PollController {
         }
     }
 
+    //view poll for public
+    @GetMapping("/view/{pollId}")
+    public ModelAndView viewPoll(@PathVariable long pollId, Model model) throws IOException {
+        Poll poll = pollService.getPollById(pollId);
+        if (poll == null) {
+            return new ModelAndView(new RedirectView("/index", true));
+        }
+        VoteForm voteForm = new VoteForm();
+        List<Comment> comments = commentService.getUndeletedCommentsByPollId(pollId);
+        poll.setComments(comments);
+
+        int a = 0, b = 0, c = 0, d = 0;
+        List<Vote> votes = poll.getVotes();
+        for (Vote vote : votes) {
+            switch (vote.getChoice()) {
+                case "A":
+                    a++;
+                    break;
+                case "B":
+                    b++;
+                    break;
+                case "C":
+                    c++;
+                    break;
+                case "D":
+                    d++;
+                    break;
+            }
+        }
+
+        ModelAndView modelAndView = new ModelAndView("public_viewPoll");
+        modelAndView.addObject("poll", poll);
+        modelAndView.addObject("comments", comments);
+        modelAndView.addObject("voteForm", voteForm);
+        modelAndView.addObject("choiceACount", a);
+        modelAndView.addObject("choiceBCount", b);
+        modelAndView.addObject("choiceCCount", c);
+        modelAndView.addObject("choiceDCount", d);
+        return modelAndView;
+    }
+
     @GetMapping("/vote/{pollId}")
     public ModelAndView votePoll(@PathVariable("pollId") long pollId, Principal principal, Model model)
         throws PollNotFound, VoteNotFound {
