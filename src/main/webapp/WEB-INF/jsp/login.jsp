@@ -32,7 +32,7 @@
             <button type="submit" value="Log In">Login</button>
     </form>
     <p class="mt-3">No account? <a href="register">Register immediately</a></p>
-    <p class="mt-3">I am a guest? <a href="index">Login with guest</a></p>
+    <p class="mt-3">Continue as guest? <a href="/index">View public content</a></p>
 </div>
 </body>
 </html>

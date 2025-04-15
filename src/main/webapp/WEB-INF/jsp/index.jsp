@@ -12,9 +12,11 @@
 </form>
 
 <h2>Online Course Website</h2><br/>
-<a href="<c:url value='/index/votinghistory'/>">Voting History</a><br/>
-<a href="<c:url value='/index/commenthistory'/>">Comment History</a><br/><br/>
-<a href="<c:url value='/courseUser'/>">Manage User Accounts</a><br /><br />
+<security:authorize access="isAuthenticated()">
+    <a href="<c:url value='/index/votinghistory'/>">Voting History</a><br/>
+    <a href="<c:url value='/index/commenthistory'/>">Comment History</a><br/><br/>
+    <a href="<c:url value='/courseUser'/>">Manage User Accounts</a><br /><br />
+</security:authorize>
 
 <!-- Display lectures-->
 <h2>Lectures</h2>

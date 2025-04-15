@@ -24,14 +24,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/user/**").hasRole("ADMIN")
                         .requestMatchers("/index/delete/**").hasRole("ADMIN")  // Admin role allowed for deleting lectures
-                        .requestMatchers("/index/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/index/delete/comment/**").hasRole("ADMIN")
                         .requestMatchers("/","/register","/index", "/login","/h2-console/**"
-                                , "/css/**", "/js/**", "/images").permitAll()  // Allow access to public paths
+                                , "/css/**", "/js/**", "/images/**").permitAll()  // Allow access to public paths
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .defaultSuccessUrl("/index")
                         .failureUrl("/login?error")
                         .permitAll()
                 )
