@@ -64,7 +64,7 @@ public class UserManagementService {
     public void createFirstAdmin() {
         if (cuRepo.count() == 0) {
             CourseUser cUser = new CourseUser("keith", pe.encode("keithpw"),
-                    "CC", "a@ex.com", "111", new String[]{"ROLE_ADMIN", "ROLE_USER"});
+                    "AAAA", "ex@example.com", "1111111", new String[]{"ROLE_ADMIN", "ROLE_USER"});
             cuRepo.save(cUser);
         }
     }
