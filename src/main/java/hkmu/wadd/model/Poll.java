@@ -29,7 +29,8 @@ public class Poll {
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<Vote> vote = new ArrayList<>();
 

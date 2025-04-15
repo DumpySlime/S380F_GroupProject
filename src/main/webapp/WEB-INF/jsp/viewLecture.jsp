@@ -4,11 +4,15 @@
     <title>Teacher Support</title>
 </head>
 <body>
-<security:authorize access="isAuthenticated() && (hasRole('ADMIN') or principal.username == '${poll.teacherName}')">
+<c:url var="logoutUrl" value="/logout"/>
+<form action="${logoutUrl}" method="post">
+    <input type="submit" value="Log out" />
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
+<security:authorize access="isAuthenticated() && hasRole('ADMIN')">
     [<a href="<c:url value="/index/lecture/edit/${lecture.id}" />">Edit</a>]
     [<a href="<c:url value="/index/lecture/delete/${lecture.id}" />">Delete</a>]
 </security:authorize>
-<br/><br/>
 <h2>Lecture #${lectureId}: <c:out value="${lecture.lectureTitle}"/></h2><br/>
 <h2>Body:${lecture.body}</h2>
 <c:if test="${!empty lecture.notes}">
@@ -16,8 +20,11 @@
     <c:forEach items="${lecture.notes}" var="note" varStatus="status">
         <a href="<c:url value="/index/lecture/${lectureId}/note/${note.id}"/>">
             <c:out value="${note.name}"/></a>
-        <!--update the security requirement as needed-->
-            [<a href="<c:url value="/index/lecture/${lectureId}/delete/${note.id}" />">Delete</a>]
+
+        <security:authorize access="hasRole('ADMIN')">
+            [<a href="<c:url value="/index/lecture/${lectureId}/delete/${note.id}" />">DeleteNote</a>]
+        </security:authorize>
+
     </c:forEach><br/><br/>
 </c:if>
 
@@ -26,7 +33,7 @@
 <h3>${comments.size()} Comments</h3>
 <security:authorize access="isAuthenticated()">
     <form:form action="/index/lecture/view/${lecture.id}/comments/addComment" method="post">
-        <textarea name="context" rows="1" cols="50" placeholder="Add a comment..." required></textarea><br>
+        <textarea name="context" rows="1" cols="50" placeholder="Add comment here..." required></textarea><br>
         <button type="submit">Comment</button>
     </form:form>
 </security:authorize>

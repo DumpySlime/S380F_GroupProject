@@ -23,7 +23,7 @@ public class Vote {
 
     private LocalDateTime createTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "username", insertable = false, updatable = false)
     private CourseUser courseUser;
 

@@ -62,4 +62,9 @@ public class VoteService {
     public List<Vote> getUserVotingHistory(String username) {
         return voteRepository.findByUsername(username);
     }
+
+    @Transactional
+    public void deleteByUsername(String username) {
+        voteRepository.deleteByUsername(username);
+    }
 }

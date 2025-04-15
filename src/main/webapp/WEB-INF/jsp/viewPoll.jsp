@@ -4,6 +4,11 @@
     <title>Poll Support</title>
 </head>
 <body>
+<c:url var="logoutUrl" value="/logout"/>
+<form action="${logoutUrl}" method="post">
+    <input type="submit" value="Log out" />
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 <security:authorize access="isAuthenticated() && (hasRole('ADMIN') or principal.username == '${poll.teacherName}')">
     <a href="<c:url value="/index/poll/edit/${poll.id}" />">Edit</a>
 </security:authorize>
@@ -23,7 +28,7 @@
 <h3>${comments.size()} Comments</h3>
     <security:authorize access="isAuthenticated()">
         <form:form action="/index/poll/vote/${poll.id}/comments/addComment" method="post">
-            <textarea name="context" rows="1" cols="50" placeholder="Add a comment..." required></textarea><br>
+            <textarea name="context" rows="1" cols="50" placeholder="Add comment here..." required></textarea><br>
             <button type="submit">Comment</button>
         </form:form>
     </security:authorize>

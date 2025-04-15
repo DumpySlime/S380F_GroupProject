@@ -1,6 +1,7 @@
 package hkmu.wadd.controller;
 
 import hkmu.wadd.dao.UserManagementService;
+import hkmu.wadd.dao.VoteService;
 import hkmu.wadd.model.CourseUser;
 import hkmu.wadd.validator.UserValidator;
 import jakarta.annotation.Resource;
@@ -23,6 +24,9 @@ import java.security.Principal;
 public class UserManagementController {
     @Resource
     UserManagementService userManagementService;
+
+    @Resource
+    VoteService voteService;
 
     @Autowired
     PasswordEncoder pe;
@@ -179,6 +183,7 @@ public class UserManagementController {
 
     @GetMapping("/delete/{username}")
     public String delete(@PathVariable("username") String username) {
+        voteService.deleteByUsername(username);
         userManagementService.delete(username);
         return "redirect:/courseUser/list";
     }

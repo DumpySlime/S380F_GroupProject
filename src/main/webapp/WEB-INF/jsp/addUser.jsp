@@ -24,11 +24,11 @@
 
   <form:label path="password">Password</form:label><br/>
   <form:errors path="password" cssClass="error"/>
-  <form:input type="text" path="password"/><br/><br/>
+  <form:input type="password" path="password"/><br/><br/>
 
   <form:label path="confirmPassword">Confirm Password</form:label><br/>
   <form:errors path="confirmPassword" cssClass="error"/>
-  <form:input type="text" path="confirmPassword"/><br/><br/>
+  <form:input type="password" path="confirmPassword"/><br/><br/>
 
   <form:label path="fullName">Fullname</form:label><br/>
   <form:input type="text" path="fullName"/><br/><br/>
