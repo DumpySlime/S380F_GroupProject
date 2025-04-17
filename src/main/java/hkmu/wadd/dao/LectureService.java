@@ -23,7 +23,10 @@ public class LectureService {
 
     @Transactional
     public List<Lecture> getLectures() {
-        return lectureRepository.findAll();
+        if (lectureRepository.count() != 0) {
+            return lectureRepository.findAll();
+        }
+        return null;
     }
 
     @Transactional

@@ -22,10 +22,10 @@ public class Note {
     @Basic(fetch = FetchType.LAZY)
     @Lob
     private byte[] contents;
-
+/*
     @Column(name = "lecture_id", insertable=false, updatable=false)
     private long lectureId;
-
+*/
     @ManyToOne
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
@@ -61,7 +61,7 @@ public class Note {
     public void setContents(byte[] contents) {
         this.contents = contents;
     }
-
+/*
     public long getLectureId() {
         return lectureId;
     }
@@ -69,7 +69,7 @@ public class Note {
     public void setLectureId(long lectureId) {
         this.lectureId = lectureId;
     }
-
+*/
     public Lecture getLecture() {
         return lecture;
     }

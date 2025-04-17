@@ -20,13 +20,16 @@ public class PollService {
 
     @Transactional
     public List<Poll> getUndeletedPolls() {
+        if (pollRepository.count() != 0) {
         List<Poll> undeletedPolls = new ArrayList<>();
-        for (Poll poll : pollRepository.findAll()) {
-            if (!poll.isDeleted()) {
-                undeletedPolls.add(poll);
+            for (Poll poll : pollRepository.findAll()) {
+                if (!poll.isDeleted()) {
+                    undeletedPolls.add(poll);
+                }
             }
+            return undeletedPolls;
         }
-        return undeletedPolls;
+        return null;
    }
 
     @Transactional
