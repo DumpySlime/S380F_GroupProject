@@ -4,12 +4,14 @@ import hkmu.wadd.exception.LectureNotFound;
 import hkmu.wadd.exception.NoteNotFound;
 import hkmu.wadd.model.Lecture;
 import hkmu.wadd.model.Note;
+import hkmu.wadd.model.Poll;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +26,13 @@ public class LectureService {
     @Transactional
     public List<Lecture> getLectures() {
         if (lectureRepository.count() != 0) {
-            return lectureRepository.findAll();
+            List<Lecture> undeletedLectures = new ArrayList<>();
+            for (Lecture lecture : lectureRepository.findAll()) {
+                if (!lecture.isDeleted()) {
+                    undeletedLectures.add(lecture);
+                }
+            }
+            return undeletedLectures;
         }
         return null;
     }
@@ -55,7 +63,8 @@ public class LectureService {
         if (deletedLecture == null) {
             throw new LectureNotFound(id);
         }
-        lectureRepository.delete(deletedLecture);
+        deletedLecture.setDeleted(true);
+        lectureRepository.save(deletedLecture);
     }
 
     @Transactional(rollbackFor = LectureNotFound.class)

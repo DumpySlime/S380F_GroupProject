@@ -9,12 +9,15 @@ import java.util.List;
 
 
 @Entity
+@Table(name = "poll")
 public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "teacher_name")
     private String teacherName;
+
     private String question;
     private String optionAText;
     private String optionBText;

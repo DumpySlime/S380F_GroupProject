@@ -11,7 +11,10 @@ public class CourseUser {
     @Id
     private String username;
     private String password;
+
+    @Column(name = "full_name")
     private String fullName;
+
     private String email;
     private String phone;
 

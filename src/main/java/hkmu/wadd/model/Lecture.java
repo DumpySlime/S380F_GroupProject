@@ -8,15 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "lecture")
 public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
+    @Column(name = "teacher_name")
     private String teacherName;
+    @Column(name = "lecture_title")
     private String lectureTitle;
     private String body;
+
+    private boolean deleted = false;
 
     @OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
@@ -59,6 +63,14 @@ public class Lecture {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public List<Note> getNotes() {

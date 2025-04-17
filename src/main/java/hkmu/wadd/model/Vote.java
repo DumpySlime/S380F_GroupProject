@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name = "vote")
 public class Vote {
     @Id
     @GeneratedValue
@@ -21,6 +22,7 @@ public class Vote {
 
     private String choice;
 
+    @Column(name = "created_time")
     private LocalDateTime createTime;
 
     @ManyToOne(fetch = FetchType.EAGER)

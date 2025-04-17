@@ -6,6 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 import java.util.UUID;
 
 @Entity
+@Table(name = "note")
 public class Note {
     @Id
     @GeneratedValue
@@ -22,10 +23,6 @@ public class Note {
     @Basic(fetch = FetchType.LAZY)
     @Lob
     private byte[] contents;
-/*
-    @Column(name = "lecture_id", insertable=false, updatable=false)
-    private long lectureId;
-*/
     @ManyToOne
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
